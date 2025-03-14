@@ -2,9 +2,9 @@
 
 | Student's name | SCIPER |
 | -------------- | ------ |
-| | |
-| | |
-| | |
+| Dmitry Teploukhov | 339647 |
+| Tuan Dang Nguyen | 361089 |
+| Kokkalera Yaash Nachappa |  |
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
