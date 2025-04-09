@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Olympic History Explorer</title>
+  <link rel="icon" href="assets/olympic-icon.png" type="image/png" />
+  
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round|Nunito:200,300,400,600,700" rel="stylesheet" />
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="docs/style.css" />
+</head>
+
+<body id="page-top">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="#page-top">Olympic Explorer</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#explore">Explore</a></li>
+          <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="masthead text-center text-white">
+    <div class="container d-flex align-items-center flex-column">
+      <h1 class="masthead-heading text-uppercase mb-0">120 Years of Olympic History</h1>
+      <p class="masthead-subheading font-weight-light mb-5">Athletes, Countries & Medals — An Interactive Journey</p>
+      <a class="btn btn-primary btn-xl" href="#about">Start Exploring</a>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section class="page-section bg-primary text-white mb-0" id="about">
+    <div class="container text-center">
+      <h2 class="page-section-heading text-center text-uppercase text-white">About This Project</h2>
+      <p class="lead">This interactive website visualizes the Olympic Games dataset (1896–2016), showcasing athlete performance, national participation, and medal trends. Powered by Bootstrap, JavaScript, and love for data.</p>
+    </div>
+  </section>
+
+  <!-- Explore -->
+  <section class="page-section" id="explore">
+    <div class="container">
+      <h2 class="text-center text-uppercase text-secondary mb-5">Explore the Data</h2>
+      <div id="data-content" class="text-center">
+        <!-- JS will inject content here -->
+        <p>Loading Olympic data...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="page-section bg-light" id="team">
+    <div class="container">
+      <h2 class="text-center text-uppercase">Our Team</h2>
+      <div class="row text-center mt-4">
+        <div class="col-md-4">
+          <div class="team-member">
+            <img src="assets/team-member1.jpg" alt="Dmitry Teploukhov" class="rounded-circle img-fluid mb-4">
+            <h5>Dmitry Teploukhov</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="team-member">
+            <img src="assets/team-member2.jpg" alt="Tuan Dang Nguyen" class="rounded-circle img-fluid mb-4">
+            <h5>Tuan Dang Nguyen</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="team-member">
+            <img src="assets/team-member3.jpg" alt="Kokkalera Yaash Nachappa" class="rounded-circle img-fluid mb-4">
+            <h5>Kokkalera Yaash Nachappa</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer bg-dark text-white-50 text-center py-3">
+    <div class="container">© 2025 Olympic Data Project</div>
+  </footer>
+
+  <!-- Bootstrap core JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="docs/script.js"></script>
+</body>
+</html>
