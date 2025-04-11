@@ -5,7 +5,7 @@ body {
 .masthead {
   padding-top: 8rem;
   padding-bottom: 8rem;
-  background: url("assets/olympic-bg.jpg") no-repeat center center;
+  background: url("../assets/olympic-bg.jpg") center center no-repeat;
   background-size: cover;
   position: relative;
   color: white;
@@ -23,13 +23,17 @@ body {
 
 .masthead-heading {
   font-size: 3rem;
+  background: linear-gradient(90deg, #0066B3, #FFCC00, #000000, #009639, #F11C22);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
   z-index: 2;
 }
 
 .masthead-subheading {
   font-size: 1.25rem;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+  color: #0066B3; /* Olympic blue */
+  text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.5);
   z-index: 2;
 }
 
