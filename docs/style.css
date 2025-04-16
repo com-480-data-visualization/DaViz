@@ -5,7 +5,6 @@ body {
 .masthead {
   padding-top: 8rem;
   padding-bottom: 8rem;
-  background: url("../assets/olympic-bg.jpg") center center no-repeat;
   background-size: cover;
   position: relative;
   color: white;
