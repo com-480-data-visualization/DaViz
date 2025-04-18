@@ -52,16 +52,118 @@
     </div>
   </section>
 
-  <!-- Explore -->
+  <section class="page-section" id="explore">
+    <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-5">Explore Basic Statistics </h2>
+        
+        <!-- Dropdown Section -->
+        <div class="accordion" id="olympicStatsAccordion">
+            <!-- Athlete Statistics -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingAthletes">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapseAthletes" aria-expanded="false" aria-controls="collapseAthletes">
+                        Athlete Statistics
+                    </button>
+                </h2>
+                <div id="collapseAthletes" class="accordion-collapse collapse" aria-labelledby="headingAthletes" 
+                     data-bs-parent="#olympicStatsAccordion">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Gender Distribution</h5>
+                                <canvas id="genderChart" width="400" height="300"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Top Sports by Participation</h5>
+                                <canvas id="sportsChart" width="400" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center mt-3 fun-fact">
+                      <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
+                      <small class="ms-2">The 1904 Olympic marathon winner was given strychnine and brandy during the race, while another competitor was disqualified for riding in a car!</small>
+                    </p> 
+
+                </div>
+            </div>
+            
+            <!-- Medal Statistics -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingMedals">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapseMedals" aria-expanded="false" aria-controls="collapseMedals">
+                        Medal Statistics
+                    </button>
+                </h2>
+                <div id="collapseMedals" class="accordion-collapse collapse" aria-labelledby="headingMedals" 
+                     data-bs-parent="#olympicStatsAccordion">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Medal Distribution</h5>
+                                <canvas id="medalChart" width="400" height="300"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Top Countries by Medals</h5>
+                                <canvas id="countryChart" width="400" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center mt-3 fun-fact">
+                      <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
+                      <small class="ms-2">The Olympic gold medals haven't been solid gold since 1912 - they're actually silver with gold plating!</small>
+                    </p>                
+                  </div>
+            </div>
+            
+            <!-- Age/Height/Weight Statistics -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPhysical">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapsePhysical" aria-expanded="false" aria-controls="collapsePhysical">
+                        Physical Attributes
+                    </button>
+                </h2>
+                <div id="collapsePhysical" class="accordion-collapse collapse" aria-labelledby="headingPhysical" 
+                     data-bs-parent="#olympicStatsAccordion">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Age Distribution</h5>
+                                <canvas id="ageChart" width="300" height="250"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Height Distribution</h5>
+                                <canvas id="heightChart" width="300" height="250"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Weight Distribution</h5>
+                                <canvas id="weightChart" width="300" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center mt-3 fun-fact">
+                      <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
+                      <small class="ms-2">The oldest Olympic competitor was 72-year-old Oscar Swahn who won silver in shooting at the 1920 Games!</small>
+                    </p>                 
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <!-- Explore 
   <section class="page-section" id="explore">
     <div class="container">
       <h2 class="text-center text-uppercase text-secondary mb-5">Explore the Data</h2>
       <div id="data-content" class="text-center">
-        <!-- JS will inject content here -->
+        <!-- JS will inject content here 
         <p>Loading Olympic data...</p>
       </div>
     </div>
-  </section>
+  </section>-->
 
   <!-- Team -->
   <section class="page-section bg-light" id="team">

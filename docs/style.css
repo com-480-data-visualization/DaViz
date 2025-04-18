@@ -79,6 +79,33 @@ footer.footer {
   color: #333;
 }
 
+/* Add to your CSS file */
+.accordion-button:not(.collapsed) {
+  background-color: rgba(0, 102, 179, 0.1);
+  color: #0066B3;
+  font-weight: bold;
+}
+
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 102, 179, 0.25);
+}
+
+.accordion-body {
+  background-color: #f8f9fa;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.fun-fact {
+  background-color: rgba(255, 204, 0, 0.1);
+  padding: 8px;
+  border-radius: 5px;
+  border-left: 3px solid #0066B3;
+}
+
 /* Define Olympic Colors */
 .bg-olympic-blue { background-color: #0066B3; }
 .bg-olympic-yellow { background-color: #FFCC00; }
