@@ -1,38 +1,3 @@
-/*document.addEventListener("DOMContentLoaded", () => {
-    const dataDiv = document.getElementById("data-content");
-
-    // Placeholder demo - replace with CSV parsing logic later
-    dataDiv.innerHTML = `
-      <h3>Sample Stats</h3>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card text-white bg-primary mb-4">
-            <div class="card-body">
-              <h5 class="card-title">Total Athletes</h5>
-              <p class="card-text"><strong>~135,000</strong></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card text-white bg-secondary mb-4">
-            <div class="card-body">
-              <h5 class="card-title">Countries Represented</h5>
-              <p class="card-text"><strong>206</strong></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card text-white bg-success mb-4">
-            <div class="card-body">
-              <h5 class="card-title">Years Covered</h5>
-              <p class="card-text"><strong>1896 – 2016</strong></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-});*/
-
 document.addEventListener("DOMContentLoaded", () => {
   // Load Chart.js from CDN
   const script = document.createElement('script');
@@ -42,53 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializeCharts() {
-  // Sample data processing (replace with actual CSV parsing)
-  const athleteData = {
-      gender: {
-          labels: ['Male', 'Female'],
-          data: [65, 35],
-          backgroundColor: ['#0066B3', '#F11C22']
-      },
-      sports: {
-          labels: ['Athletics', 'Swimming', 'Gymnastics', 'Fencing', 'Football'],
-          data: [12000, 8500, 6000, 3500, 3000],
-          backgroundColor: ['#0066B3', '#FFCC00', '#000000', '#009639', '#F11C22']
-      },
-      medals: {
-          labels: ['Gold', 'Silver', 'Bronze'],
-          data: [1200, 1000, 1000],
-          backgroundColor: ['#FFD700', '#C0C0C0', '#CD7F32']
-      },
-      countries: {
-          labels: ['USA', 'Russia', 'Germany', 'UK', 'China'],
-          data: [2800, 2000, 1800, 1500, 1400],
-          backgroundColor: ['#0066B3', '#F11C22', '#000000', '#009639', '#FFCC00']
-      },
-      age: {
-          labels: ['Under 20', '20-25', '26-30', '31-35', 'Over 35'],
-          data: [15, 35, 30, 15, 5],
-          backgroundColor: ['#0066B3', '#FFCC00', '#000000', '#009639', '#F11C22']
-      },
-      height: {
-          labels: ['Under 160cm', '160-170cm', '170-180cm', '180-190cm', 'Over 190cm'],
-          data: [10, 25, 35, 25, 5],
-          backgroundColor: ['#0066B3', '#FFCC00', '#000000', '#009639', '#F11C22']
-      },
-      weight: {
-          labels: ['Under 60kg', '60-70kg', '70-80kg', '80-90kg', 'Over 90kg'],
-          data: [20, 30, 25, 15, 10],
-          backgroundColor: ['#0066B3', '#FFCC00', '#000000', '#009639', '#F11C22']
-      }
-  };
-
-  // Create charts
-  createChart('genderChart', 'doughnut', athleteData.gender);
-  createChart('sportsChart', 'bar', athleteData.sports);
-  createChart('medalChart', 'pie', athleteData.medals);
-  createChart('countryChart', 'bar', athleteData.countries);
-  createChart('ageChart', 'bar', athleteData.age);
-  createChart('heightChart', 'bar', athleteData.height);
-  createChart('weightChart', 'bar', athleteData.weight);
+  fetch('docs/olympic_data.json')
+    .then(response => response.json())
+    .then(data => {
+      createChart('genderChart', 'doughnut', {...data.gender, backgroundColor: ['#0066B3', '#F11C22']});
+      createChart('sportsChart', 'bar', {...data.sports, backgroundColor: ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F']});
+      createChart('medalChart', 'pie', {...data.medals, backgroundColor: ['#FFD700', '#C0C0C0', '#CD7F32']});
+      createChart('countryChart', 'bar', {...data.countries, backgroundColor: ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F']});
+      createChart('ageChart', 'bar', {...data.age, backgroundColor: ['#D4E6F1', '#A9CCE3', '#7FB3D5', '#5499C7', '#2980B9']});
+      createChart('heightChart', 'bar', {...data.height, backgroundColor: ['#E8DAEF', '#D2B4DE', '#BB8FCE', '#A569BD', '#8E44AD']});
+      createChart('weightChart', 'bar', {...data.weight, backgroundColor: ['#FAD7A0', '#F8C471', '#F5B041', '#F39C12', '#D68910']});
+    });
 }
 
 function createChart(elementId, type, data) {

@@ -1,0 +1,104 @@
+{
+  "gender": {
+    "labels": [
+      "Male",
+      "Female"
+    ],
+    "data": [
+      196594,
+      74522
+    ]
+  },
+  "sports": {
+    "labels": [
+      "Athletics",
+      "Gymnastics",
+      "Swimming",
+      "Shooting",
+      "Cycling"
+    ],
+    "data": [
+      38624,
+      26707,
+      23195,
+      11448,
+      10859
+    ]
+  },
+  "medals": {
+    "labels": [
+      "Gold",
+      "Bronze",
+      "Silver"
+    ],
+    "data": [
+      13372,
+      13295,
+      13116
+    ]
+  },
+  "countries": {
+    "labels": [
+      "USA",
+      "URS",
+      "GER",
+      "GBR",
+      "FRA"
+    ],
+    "data": [
+      5637,
+      2503,
+      2165,
+      2068,
+      1777
+    ]
+  },
+  "age": {
+    "labels": [
+      "Under 20",
+      "20-25",
+      "26-30",
+      "31-35",
+      "Over 35"
+    ],
+    "data": [
+      26001,
+      95897,
+      56184,
+      19506,
+      8577
+    ]
+  },
+  "height": {
+    "labels": [
+      "Under 160cm",
+      "160-170cm",
+      "170-180cm",
+      "180-190cm",
+      "Over 190cm"
+    ],
+    "data": [
+      16568,
+      53285,
+      73350,
+      48557,
+      14405
+    ]
+  },
+  "weight": {
+    "labels": [
+      "Under 60kg",
+      "60-70kg",
+      "70-80kg",
+      "80-90kg",
+      "Over 90kg"
+    ],
+    "data": [
+      52080,
+      59009,
+      50695,
+      27785,
+      16594
+    ]
+  }
+}
