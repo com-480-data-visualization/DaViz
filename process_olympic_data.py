@@ -37,6 +37,13 @@ height_bins = pd.cut(df_cleaned['Height'], bins=[0, 160, 170, 180, 190, 300],
 weight_bins = pd.cut(df_cleaned['Weight'], bins=[0, 60, 70, 80, 90, 200], 
                      labels=['Under 60kg', '60-70kg', '70-80kg', '80-90kg', 'Over 90kg']).value_counts().sort_index().to_dict()
 
+# Calculate medals per participant (efficiency)
+participants_per_country = df.groupby('NOC')['ID'].nunique()
+medals_per_country = df[df['Medal'].notna()].groupby('NOC')['Medal'].count()
+
+efficiency = (medals_per_country / participants_per_country).dropna()
+top_efficiency = efficiency.nlargest(5).to_dict()
+
 # Structure for JS
 output = {
     "gender": {
@@ -54,6 +61,10 @@ output = {
     "countries": {
         "labels": list(top_countries.keys()),
         "data": list(top_countries.values())
+    },
+    "medal_efficiency": {
+        "labels": list(top_efficiency.keys()),
+        "data": list(top_efficiency.values())
     },
     "age": {
         "labels": list(age_bins.keys()),
