@@ -25,24 +25,33 @@ function initializeCharts() {
 }
 
 function createChart(elementId, type, data) {
-  const ctx = document.getElementById(elementId).getContext('2d');
-  new Chart(ctx, {
-      type: type,
-      data: {
-          labels: data.labels,
-          datasets: [{
-              data: data.data,
-              backgroundColor: data.backgroundColor,
-              borderWidth: 1
-          }]
-      },
-      options: {
-          responsive: true,
-          plugins: {
-              legend: {
-                  display: false,
-              }
-          }
-      }
-  });
+    // Check if the element with the given ID exists
+    const ctx = document.getElementById(elementId).getContext('2d');
+    
+    // Display legend when needed
+    var displayLegend = false;
+    if (elementId === 'genderChart' || elementId === 'medalChart') {
+        displayLegend = true;
+    }
+
+    new Chart(ctx, {
+        type: type,
+        data: {
+            labels: data.labels,
+            datasets: [{
+                data: data.data,
+                backgroundColor: data.backgroundColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: displayLegend,
+                    position: 'bottom',
+                }
+            }
+        }
+    });
 }
