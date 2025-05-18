@@ -38,6 +38,11 @@ function createChart(elementId, type, data) {
       },
       options: {
           responsive: true,
+          plugins: {
+              legend: {
+                  display: false,
+              }
+          }
       }
   });
 }
