@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(script);
 });
 
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('mainNav');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
 function initializeCharts() {
   fetch('docs/olympic_data.json')
     .then(response => response.json())

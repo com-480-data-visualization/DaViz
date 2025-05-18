@@ -44,8 +44,28 @@ footer.footer {
   background-color: #343a40;
 }
 
-.navbar-nav .nav-link {
+/*.navbar-nav .nav-link {
   font-weight: bold;
+}*/
+
+/* Make navbar initially transparent */
+.navbar {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: transparent;
+}
+
+.navbar.scrolled {
+  background-color: white !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a.nav-link {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.navbar.scrolled a.nav-link {
+  color: #333;
 }
 
 .navbar-nav .nav-link:hover {
