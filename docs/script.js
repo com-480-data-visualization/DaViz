@@ -64,3 +64,45 @@ function createChart(elementId, type, data) {
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const map = L.map('map', {
+        center: [20, 0],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 5,
+        worldCopyJump: false, // This prevents the infinite horizontal dragging
+        maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)) // This restricts panning to one world
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        noWrap: true // Prevents tile repetition
+    }).addTo(map);
+
+    // Load GeoJSON with country shapes
+    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+        .then(response => response.json())
+        .then(geojson => {
+        L.geoJSON(geojson, {
+            style: {
+            color: "#0066B3",
+            weight: 1,
+            fillColor: "#cce5ff",
+            fillOpacity: 0.6
+            },
+            onEachFeature: (feature, layer) => {
+            const countryName = feature.properties.name;
+            layer.on('click', () => {
+                document.getElementById('country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+            });
+            layer.on('mouseover', () => {
+                layer.setStyle({ fillOpacity: 0.9 });
+            });
+            layer.on('mouseout', () => {
+                layer.setStyle({ fillOpacity: 0.6 });
+            });
+            }
+        }).addTo(map);
+    });
+});
