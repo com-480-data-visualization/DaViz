@@ -71,38 +71,125 @@ document.addEventListener("DOMContentLoaded", () => {
         zoom: 2,
         minZoom: 2,
         maxZoom: 5,
-        worldCopyJump: false, // This prevents the infinite horizontal dragging
-        maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)) // This restricts panning to one world
+        worldCopyJump: false,
+        maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
-        noWrap: true // Prevents tile repetition
+        noWrap: true
     }).addTo(map);
 
-    // Load GeoJSON with country shapes
+    // Load GeoJSON data
     fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
         .then(response => response.json())
         .then(geojson => {
-        L.geoJSON(geojson, {
-            style: {
-            color: "#0066B3",
-            weight: 1,
-            fillColor: "#cce5ff",
-            fillOpacity: 0.6
-            },
-            onEachFeature: (feature, layer) => {
-            const countryName = feature.properties.name;
-            layer.on('click', () => {
-                document.getElementById('country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+            L.geoJSON(geojson, {
+                style: {
+                    color: "#0066B3",
+                    weight: 1,
+                    fillColor: "#cce5ff",
+                    fillOpacity: 0.6
+                },
+                onEachFeature: (feature, layer) => {
+                    const countryName = feature.properties.name;
+                    layer.on('click', () => {
+                        document.getElementById('country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+                        document.getElementById('enlarged-country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+                    });
+                    layer.on('mouseover', () => {
+                        layer.setStyle({ fillOpacity: 0.9 });
+                    });
+                    layer.on('mouseout', () => {
+                        layer.setStyle({ fillOpacity: 0.6 });
+                    });
+                }
+            }).addTo(map);
+        });
+
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
+    const mapContainer = document.getElementById('map');
+    const mapOverlay = document.getElementById('map-overlay');
+    const enlargedMap = document.getElementById('enlarged-map');
+    const countryInfo = document.getElementById('country-info');
+    const enlargedCountryInfo = document.getElementById('enlarged-country-info');
+
+    fullscreenBtn.addEventListener('click', () => {
+        // Disable body scroll
+        document.body.classList.add('body-no-scroll');
+        
+        // Hide the original map (instead of cloning)
+        countryInfo.style.display = 'none';
+        
+        // Show the overlay and enlarged map
+        mapOverlay.style.display = 'block';
+        
+        // Initialize the enlarged map (only once)
+        if (!window.enlargedMapInstance) {
+            window.enlargedMapInstance = L.map('enlarged-map', {
+                center: map.getCenter(),
+                zoom: map.getZoom(),
+                minZoom: 2,
+                maxZoom: 5,
+                worldCopyJump: false,
+                maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
             });
-            layer.on('mouseover', () => {
-                layer.setStyle({ fillOpacity: 0.9 });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                noWrap: true
+            }).addTo(window.enlargedMapInstance);
+
+            // Load GeoJSON data for the enlarged map
+            fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+            .then(response => response.json())
+            .then(geojson => {
+                L.geoJSON(geojson, {
+                style: {
+                    color: "#0066B3",
+                    weight: 1,
+                    fillColor: "#cce5ff",
+                    fillOpacity: 0.6
+                },
+                onEachFeature: (feature, layer) => {
+                    const countryName = feature.properties.name;
+                    layer.on('click', () => {
+                        enlargedCountryInfo.innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+                        countryInfo.innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+                    });
+                    layer.on('mouseover', () => {
+                        layer.setStyle({ fillOpacity: 0.9 });
+                    });
+                    layer.on('mouseout', () => {
+                        layer.setStyle({ fillOpacity: 0.6 });
+                    });
+                }
+                }).addTo(window.enlargedMapInstance);
             });
-            layer.on('mouseout', () => {
-                layer.setStyle({ fillOpacity: 0.6 });
-            });
+        } else {
+            // If enlarged map already exists, just sync its view
+            window.enlargedMapInstance.setView(map.getCenter(), map.getZoom());
+        }
+        });
+
+        exitFullscreenBtn.addEventListener('click', () => {
+            // Re-enable body scroll
+            document.body.classList.remove('body-no-scroll');
+            
+            // Hide the overlay
+            mapOverlay.style.display = 'none';
+
+            // Activate the country info
+            countryInfo.style.display = 'block';
+            
+            // Show the original map
+            mapContainer.style.display = 'block';
+            
+            // Sync the original map's view with the enlarged one
+            if (window.enlargedMapInstance) {
+                map.setView(window.enlargedMapInstance.getCenter(), window.enlargedMapInstance.getZoom());
             }
-        }).addTo(map);
-    });
+        }
+    );
 });
