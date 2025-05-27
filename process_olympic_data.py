@@ -1,6 +1,40 @@
 import pandas as pd
 import json
 
+def load_mappings(noc_path='./data/noc_regions.csv', coord_path='./data/lat_long.csv'):
+    """Load both NOC mappings and country coordinates"""
+    # Load NOC to country name mapping
+    noc_df = pd.read_csv(noc_path)
+    noc_to_country = dict(zip(noc_df['NOC'], noc_df['region']))
+    
+    # Load country coordinates (using country names)
+    coord_df = pd.read_csv(coord_path)
+    country_to_coords = dict(zip(coord_df['country'], 
+                             zip(coord_df['latitude'], coord_df['longitude'])))
+    
+    return noc_to_country, country_to_coords
+
+# Load mappings at script start
+noc_to_country, country_to_coords = load_mappings()
+
+def get_country_coordinates(noc_code):
+    """Get coordinates for a NOC code by first mapping to country name"""
+    country_name = noc_to_country.get(noc_code)
+    if not country_name:
+        return (None, None)
+    
+    # Handle special cases where country name might differ
+    special_cases = {
+        'UK': 'United Kingdom',
+        'USA': 'United States',
+        'CIV': 'Ivory Coast',
+        'URS': 'Russia',  # USSR is now Russia
+        # Add any other special mappings needed
+    }
+    
+    country_name = special_cases.get(country_name, country_name)
+    return country_to_coords.get(country_name, (None, None))
+
 # Load the dataset
 df = pd.read_csv('data/athlete_events.csv')
 
@@ -44,6 +78,20 @@ medals_per_country = df[df['Medal'].notna()].groupby('NOC')['Medal'].count()
 efficiency = (medals_per_country / participants_per_country).dropna()
 top_efficiency = efficiency.nlargest(5).to_dict()
 
+# Get medal counts by country
+medal_counts_by_country = df[df['Medal'].notna()].groupby('NOC')['Medal'].count().nlargest(50).to_dict()
+
+# Create heatmap data using the CSV coordinates
+heatmap_data = {}
+for noc_code, count in medal_counts_by_country.items():
+    lat, lng = get_country_coordinates(noc_code)
+    if lat and lng:
+        heatmap_data[noc_code] = {
+            "lat": lat,
+            "lng": lng,
+            "count": count
+        }
+
 # Structure for JS
 output = {
     "gender": {
@@ -79,6 +127,8 @@ output = {
         "data": list(weight_bins.values())
     }
 }
+
+output["heatmap"] = heatmap_data
 
 # Save to JSON
 with open('docs/olympic_data.json', 'w') as f:
