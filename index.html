@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="docs/style.css" />
 
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 
 </head>
 
@@ -180,6 +180,10 @@
                     style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
               Full Screen
             </button>
+            <button id="toggle-heatmap-btn" class="btn btn-danger btn-sm" 
+                    style="position: absolute; top: 50px; right: 10px; z-index: 1000;">
+              Toggle Heatmap
+            </button>
             <div id="map" style="height: 400px; border-radius: 8px;"></div>
           </div>
 
@@ -241,10 +245,16 @@
 
   <!-- Bootstrap core JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Leaflet core (must come before leaflet-heat) -->
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <script src="https://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>
+
+  <!-- Leaflet heat plugin (must come after Leaflet) -->
+  <script src="leaflet-heat.js"></script>
+
   <!-- Custom JS -->
-  <script src="docs/script.js"></script>
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./docs/script.js"></script>
 
 </body>
 </html>
