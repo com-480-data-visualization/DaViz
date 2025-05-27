@@ -110,7 +110,7 @@ footer.footer {
   background-color: #f8f9fa;
 }
 
-canvas {
+#explore canvas, #collapseMedals canvas, #collapseAthletes canvas, #collapsePhysical canvas {
   max-width: 100%;
   height: auto;
 }

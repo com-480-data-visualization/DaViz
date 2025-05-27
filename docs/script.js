@@ -1,3 +1,17 @@
+let heatmapLayer;
+let isHeatmapVisible = false;
+
+
+function generateHeatData(heatmapData) {
+    const data = Object.values(heatmapData).map(entry => [
+        entry.lat,
+        entry.lng,
+        entry.count
+    ]);
+    console.log("Generated heatmap data:", data);
+    return data;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Load Chart.js from CDN
   const script = document.createElement('script');
@@ -20,6 +34,8 @@ function initializeCharts() {
     .then(response => response.json())
     .then(data => {
         console.log("Medal Efficiency Data:", data.medal_efficiency);
+        // Store the heatmap data globally
+        window.heatmapData = data.heatmap || {};
 
         createChart('genderChart', 'doughnut', {...data.gender, backgroundColor: ['#0066B3', '#F11C22']});
         createChart('sportsChart', 'bar', {...data.sports, backgroundColor: ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F']});
@@ -70,11 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
         center: [20, 0],
         zoom: 2,
         minZoom: 2,
-        maxZoom: 5,
+        maxZoom: 20,
         worldCopyJump: false,
         maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
     });
-
+    
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
         noWrap: true
@@ -114,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const enlargedMap = document.getElementById('enlarged-map');
     const countryInfo = document.getElementById('country-info');
     const enlargedCountryInfo = document.getElementById('enlarged-country-info');
+    const toggleHeatmapBtn = document.getElementById('toggle-heatmap-btn');
 
     fullscreenBtn.addEventListener('click', () => {
         // Disable body scroll
@@ -131,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 center: map.getCenter(),
                 zoom: map.getZoom(),
                 minZoom: 2,
-                maxZoom: 5,
+                maxZoom: 20,
                 worldCopyJump: false,
                 maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180))
             });
@@ -171,9 +188,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // If enlarged map already exists, just sync its view
             window.enlargedMapInstance.setView(map.getCenter(), map.getZoom());
         }
-        });
+    });
 
-        exitFullscreenBtn.addEventListener('click', () => {
+    exitFullscreenBtn.addEventListener('click', () => {
             // Re-enable body scroll
             document.body.classList.remove('body-no-scroll');
             
@@ -190,6 +207,39 @@ document.addEventListener("DOMContentLoaded", () => {
             if (window.enlargedMapInstance) {
                 map.setView(window.enlargedMapInstance.getCenter(), window.enlargedMapInstance.getZoom());
             }
+
+            // Reset the enlarged heatmap visibility state
+            isEnlargedHeatmapVisible = false;
+    });
+
+    toggleHeatmapBtn.addEventListener('click', () => {
+        console.log("Heatmap toggle clicked!");
+        if (!heatmapLayer && window.heatmapData) {
+            const heatData = generateHeatData(window.heatmapData);
+
+            // Get all medal counts for normalization
+            const counts = Object.values(window.heatmapData).map(entry => entry.count);
+            const maxCount = Math.max(...counts);
+            console.log("Max count for heatmap normalization:", maxCount);
+
+            heatmapLayer = L.heatLayer(heatData, { radius: 40, blur: 0, maxZoom: 17, max: 1.0, gradient: {
+                0.1: 'blue',    // Low medal count
+                0.3: 'cyan',    // Medium-low
+                0.5: 'lime',    // Medium
+                0.7: 'yellow',  // Medium-high
+                0.9: 'red'      // High medal count
+            }}).addTo(map);
         }
-    );
+
+        if (isHeatmapVisible) {
+            map.removeLayer(heatmapLayer);
+            toggleHeatmapBtn.innerText = 'Show Heatmap';
+        } else {
+            heatmapLayer.addTo(map);
+            toggleHeatmapBtn.innerText = 'Hide Heatmap';
+        }
+
+        isHeatmapVisible = !isHeatmapVisible;
+    });
+
 });
