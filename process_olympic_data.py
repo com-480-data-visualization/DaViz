@@ -81,6 +81,9 @@ top_efficiency = efficiency.nlargest(5).to_dict()
 # Get medal counts by country
 medal_counts_by_country = df[df['Medal'].notna()].groupby('NOC')['Medal'].count().nlargest(50).to_dict()
 
+# Get medal counts by country for all countries
+medal_counts_by_country_all = df[df['Medal'].notna()].groupby('NOC')['Medal'].count().to_dict()
+
 # Create heatmap data using the CSV coordinates
 heatmap_data = {}
 for noc_code, count in medal_counts_by_country.items():
@@ -91,6 +94,12 @@ for noc_code, count in medal_counts_by_country.items():
             "lng": lng,
             "count": count
         }
+
+countries_medals = {}
+for noc_code, count in medal_counts_by_country_all.items():
+    countries_medals[noc_code] = {
+        "count": count
+    }
 
 # Structure for JS
 output = {
@@ -130,6 +139,8 @@ output = {
 
 output["heatmap"] = heatmap_data
 
+# Add all medal counts to output
+output["medal_counts_all"] = countries_medals
 # Save to JSON
 with open('docs/olympic_data.json', 'w') as f:
     json.dump(output, f, indent=2)
