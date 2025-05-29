@@ -368,5 +368,454 @@
       "lng": 53.688046,
       "count": 68
     }
+  },
+  "medal_counts_all": {
+    "AFG": {
+      "count": 2
+    },
+    "AHO": {
+      "count": 1
+    },
+    "ALG": {
+      "count": 17
+    },
+    "ANZ": {
+      "count": 29
+    },
+    "ARG": {
+      "count": 274
+    },
+    "ARM": {
+      "count": 16
+    },
+    "AUS": {
+      "count": 1320
+    },
+    "AUT": {
+      "count": 450
+    },
+    "AZE": {
+      "count": 44
+    },
+    "BAH": {
+      "count": 40
+    },
+    "BAR": {
+      "count": 1
+    },
+    "BDI": {
+      "count": 2
+    },
+    "BEL": {
+      "count": 468
+    },
+    "BER": {
+      "count": 1
+    },
+    "BLR": {
+      "count": 139
+    },
+    "BOH": {
+      "count": 12
+    },
+    "BOT": {
+      "count": 1
+    },
+    "BRA": {
+      "count": 475
+    },
+    "BRN": {
+      "count": 3
+    },
+    "BUL": {
+      "count": 342
+    },
+    "CAN": {
+      "count": 1352
+    },
+    "CHI": {
+      "count": 32
+    },
+    "CHN": {
+      "count": 989
+    },
+    "CIV": {
+      "count": 3
+    },
+    "CMR": {
+      "count": 22
+    },
+    "COL": {
+      "count": 28
+    },
+    "CRC": {
+      "count": 4
+    },
+    "CRO": {
+      "count": 149
+    },
+    "CUB": {
+      "count": 409
+    },
+    "CYP": {
+      "count": 1
+    },
+    "CZE": {
+      "count": 144
+    },
+    "DEN": {
+      "count": 597
+    },
+    "DJI": {
+      "count": 1
+    },
+    "DOM": {
+      "count": 7
+    },
+    "ECU": {
+      "count": 2
+    },
+    "EGY": {
+      "count": 27
+    },
+    "ERI": {
+      "count": 1
+    },
+    "ESP": {
+      "count": 489
+    },
+    "EST": {
+      "count": 50
+    },
+    "ETH": {
+      "count": 53
+    },
+    "EUN": {
+      "count": 279
+    },
+    "FIJ": {
+      "count": 13
+    },
+    "FIN": {
+      "count": 900
+    },
+    "FRA": {
+      "count": 1777
+    },
+    "FRG": {
+      "count": 586
+    },
+    "GAB": {
+      "count": 1
+    },
+    "GBR": {
+      "count": 2068
+    },
+    "GDR": {
+      "count": 1005
+    },
+    "GEO": {
+      "count": 32
+    },
+    "GER": {
+      "count": 2165
+    },
+    "GHA": {
+      "count": 23
+    },
+    "GRE": {
+      "count": 255
+    },
+    "GRN": {
+      "count": 2
+    },
+    "GUA": {
+      "count": 1
+    },
+    "GUY": {
+      "count": 1
+    },
+    "HAI": {
+      "count": 7
+    },
+    "HKG": {
+      "count": 4
+    },
+    "HUN": {
+      "count": 1135
+    },
+    "INA": {
+      "count": 41
+    },
+    "IND": {
+      "count": 197
+    },
+    "IOA": {
+      "count": 5
+    },
+    "IRI": {
+      "count": 68
+    },
+    "IRL": {
+      "count": 35
+    },
+    "IRQ": {
+      "count": 1
+    },
+    "ISL": {
+      "count": 17
+    },
+    "ISR": {
+      "count": 9
+    },
+    "ISV": {
+      "count": 1
+    },
+    "ITA": {
+      "count": 1637
+    },
+    "JAM": {
+      "count": 157
+    },
+    "JOR": {
+      "count": 1
+    },
+    "JPN": {
+      "count": 913
+    },
+    "KAZ": {
+      "count": 77
+    },
+    "KEN": {
+      "count": 106
+    },
+    "KGZ": {
+      "count": 3
+    },
+    "KOR": {
+      "count": 638
+    },
+    "KOS": {
+      "count": 1
+    },
+    "KSA": {
+      "count": 6
+    },
+    "KUW": {
+      "count": 2
+    },
+    "LAT": {
+      "count": 35
+    },
+    "LIB": {
+      "count": 4
+    },
+    "LIE": {
+      "count": 9
+    },
+    "LTU": {
+      "count": 61
+    },
+    "LUX": {
+      "count": 8
+    },
+    "MAR": {
+      "count": 23
+    },
+    "MAS": {
+      "count": 16
+    },
+    "MDA": {
+      "count": 8
+    },
+    "MEX": {
+      "count": 110
+    },
+    "MGL": {
+      "count": 26
+    },
+    "MKD": {
+      "count": 1
+    },
+    "MNE": {
+      "count": 14
+    },
+    "MON": {
+      "count": 1
+    },
+    "MOZ": {
+      "count": 2
+    },
+    "MRI": {
+      "count": 1
+    },
+    "NAM": {
+      "count": 4
+    },
+    "NED": {
+      "count": 1040
+    },
+    "NEP": {
+      "count": 1
+    },
+    "NGR": {
+      "count": 99
+    },
+    "NIG": {
+      "count": 2
+    },
+    "NOR": {
+      "count": 1033
+    },
+    "NZL": {
+      "count": 228
+    },
+    "PAK": {
+      "count": 121
+    },
+    "PAN": {
+      "count": 3
+    },
+    "PAR": {
+      "count": 17
+    },
+    "PER": {
+      "count": 15
+    },
+    "PHI": {
+      "count": 10
+    },
+    "POL": {
+      "count": 565
+    },
+    "POR": {
+      "count": 41
+    },
+    "PRK": {
+      "count": 67
+    },
+    "PUR": {
+      "count": 9
+    },
+    "QAT": {
+      "count": 5
+    },
+    "ROU": {
+      "count": 653
+    },
+    "RSA": {
+      "count": 131
+    },
+    "RUS": {
+      "count": 1165
+    },
+    "SCG": {
+      "count": 64
+    },
+    "SEN": {
+      "count": 1
+    },
+    "SGP": {
+      "count": 9
+    },
+    "SLO": {
+      "count": 48
+    },
+    "SRB": {
+      "count": 85
+    },
+    "SRI": {
+      "count": 2
+    },
+    "SUD": {
+      "count": 1
+    },
+    "SUI": {
+      "count": 691
+    },
+    "SUR": {
+      "count": 2
+    },
+    "SVK": {
+      "count": 47
+    },
+    "SWE": {
+      "count": 1536
+    },
+    "SYR": {
+      "count": 3
+    },
+    "TAN": {
+      "count": 2
+    },
+    "TCH": {
+      "count": 488
+    },
+    "TGA": {
+      "count": 1
+    },
+    "THA": {
+      "count": 30
+    },
+    "TJK": {
+      "count": 4
+    },
+    "TOG": {
+      "count": 1
+    },
+    "TPE": {
+      "count": 49
+    },
+    "TTO": {
+      "count": 32
+    },
+    "TUN": {
+      "count": 13
+    },
+    "TUR": {
+      "count": 95
+    },
+    "UAE": {
+      "count": 2
+    },
+    "UAR": {
+      "count": 2
+    },
+    "UGA": {
+      "count": 7
+    },
+    "UKR": {
+      "count": 199
+    },
+    "URS": {
+      "count": 2503
+    },
+    "URU": {
+      "count": 63
+    },
+    "USA": {
+      "count": 5637
+    },
+    "UZB": {
+      "count": 34
+    },
+    "VEN": {
+      "count": 15
+    },
+    "VIE": {
+      "count": 4
+    },
+    "WIF": {
+      "count": 5
+    },
+    "YUG": {
+      "count": 390
+    },
+    "ZAM": {
+      "count": 2
+    },
+    "ZIM": {
+      "count": 22
+    }
   }
 }
