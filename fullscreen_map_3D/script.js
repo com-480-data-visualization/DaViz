@@ -72,6 +72,62 @@ function createBarChart(data, containerId) {
     d3.select(`#${containerId} svg`).style('min-width', `${width + margin.left + margin.right}px`);
 }
 
+function createPieChart(data, containerId) {
+    const width = 300; // Adjusted width
+    const height = 300; // Adjusted height
+    const radius = Math.min(width, height) / 2;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .style('background', '#f9f9f9') // Add background for visibility
+        .append('g')
+        .attr('transform', `translate(${width / 2},${height / 2})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(Object.keys(data))
+        .range(['#ffd700', '#c0c0c0', '#cd7f32']);
+
+    const pie = d3.pie()
+        .value(d => d.value);
+
+    //data's format is [{}, {}, {}]
+    // Convert data to the format expected by d3.pie
+    // Ensure data is in the correct format for d3.pie
+    const data_ready = pie(data.map(d => ({ key: d.year, value: d.count })));
+
+    const arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+    svg.selectAll('path')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.key))
+        .attr('stroke', 'white')
+        .style('stroke-width', '2px')
+        .style('opacity', 0.8);
+
+    // Add labels to ensure visibility
+    svg.selectAll('text')
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .text(d => `${d.data.key}: ${d.data.value}`)
+        .attr('transform', d => `translate(${arc.centroid(d)})`)
+        .style('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .style('fill', '#333');
+
+    console.log('Data ready for pie chart:', data_ready); // Debugging log
+}
+
 fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
     const colorScale = scaleSequentialSqrt(interpolateYlOrRd);
 
@@ -190,12 +246,29 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
         popupMedalCount.style.fontSize = '1.2em';
         popupContent.appendChild(popupMedalCount);
 
+        // Adjust the layout of the popup-charts container to display charts side by side
         const popupCharts = document.createElement('div');
         popupCharts.id = 'popup-charts';
+        popupCharts.style.display = 'flex'; // Use flexbox for layout
+        popupCharts.style.justifyContent = 'space-between'; // Add spacing between charts
+        popupCharts.style.alignItems = 'flex-start'; // Align charts at the top
         popupCharts.style.marginTop = '20px';
         popupCharts.style.color = '#666';
-        popupCharts.innerHTML = '<i>Future D3.js charts will go here.</i>';
         popupContent.appendChild(popupCharts);
+
+        // Create separate containers for the bar chart and pie chart
+        const barChartContainer = document.createElement('div');
+        barChartContainer.id = 'popup-bar-chart';
+        barChartContainer.style.flex = '1'; // Allow the bar chart to take up equal space
+        barChartContainer.style.marginRight = '10px'; // Add spacing between the charts
+        popupCharts.appendChild(barChartContainer);
+
+        const pieChartContainer = document.createElement('div');
+        pieChartContainer.id = 'popup-pie-chart';
+        pieChartContainer.style.flex = '1'; // Allow the pie chart to take up equal space
+        pieChartContainer.style.marginLeft = '100px'; // Add spacing between the charts
+        pieChartContainer.style.marginTop = '80px'; // Set a fixed width for the pie chart
+        popupCharts.appendChild(pieChartContainer);
 
         // Add click event to display country statistics in the popup
         world.onPolygonClick(clickedD => {
@@ -206,6 +279,7 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
             document.getElementById('popup-country-name').textContent = countryName;
             document.getElementById('popup-medal-count').textContent = `Total Medals: ${medalCount}`;
             document.getElementById('popup-charts').innerHTML = '<i>Future D3.js charts will go here.</i>';
+            document.getElementById('popup-pie-chart').innerHTML = '<i>Future D3.js pie chart will go here.</i>';
 
             popup.style.display = 'block';
         });
@@ -263,7 +337,16 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
                 document.getElementById('popup-medal-count').textContent = `Total Medals: ${countryData.length}`;
 
                 // Create the bar chart
-                createBarChart(medalCounts, 'popup-charts');
+                createBarChart(medalCounts, 'popup-bar-chart');
+
+                // Create the pie chart that shows how many bronze, silver, and gold medals were won by the country
+                const medalTypes = ['Gold', 'Silver', 'Bronze'];
+                const pieData = medalTypes.map(type => {
+                    const count = countryData.filter(d => d.Medal === type).length;
+                    return { year: type, count };
+                });
+                
+                createPieChart(pieData, 'popup-pie-chart');
 
                 popup.style.display = 'block';
             });
