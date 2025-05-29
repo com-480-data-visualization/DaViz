@@ -1,6 +1,177 @@
 let heatmapLayer;
 let isHeatmapVisible = false;
 
+// Add these variables at the top of your script.js
+let globeInstance;
+let is3DView = false;
+
+// NOC to country name mapping
+const noc_to_country = {
+  'USA': 'United States', 
+  'URS': 'Soviet Union',
+  'GER': 'Germany',
+  'GBR': 'United Kingdom',
+  'FRA': 'France',
+  'ITA': 'Italy',
+  'SWE': 'Sweden',
+  'CAN': 'Canada',
+  'AUS': 'Australia',
+  'RUS': 'Russia',
+  'HUN': 'Hungary',
+  'NED': 'Netherlands',
+  'NOR': 'Norway',
+  'GDR': 'East Germany',
+  'CHN': 'China',
+  'JPN': 'Japan',
+  'FIN': 'Finland',
+  'SUI': 'Switzerland',
+  'ROU': 'Romania',
+  'KOR': 'South Korea',
+  'FRG': 'West Germany',
+  'POL': 'Poland',
+  'ESP': 'Spain',
+  'TCH': 'Czechoslovakia',
+  'BRA': 'Brazil',
+  'BEL': 'Belgium',
+  'AUT': 'Austria',
+  'CUB': 'Cuba',
+  'YUG': 'Yugoslavia',
+  'BUL': 'Bulgaria',
+  'EUN': 'Unified Team',
+  'ARG': 'Argentina',
+  'GRE': 'Greece',
+  'NZL': 'New Zealand',
+  'UKR': 'Ukraine',
+  'IND': 'India',
+  'JAM': 'Jamaica',
+  'CRO': 'Croatia',
+  'CZE': 'Czech Republic',
+  'BLR': 'Belarus',
+  'RSA': 'South Africa',
+  'PAK': 'Pakistan',
+  'MEX': 'Mexico',
+  'KEN': 'Kenya',
+  'NGR': 'Nigeria',
+  'TUR': 'Turkey',
+  'SRB': 'Serbia',
+  'KAZ': 'Kazakhstan',
+  'IRI': 'Iran'
+  // Add more as needed
+};
+
+// Add this function to create the 3D globe
+/*function createGlobe(heatmapData) {
+    // Convert heatmap data to globe.gl format
+    const globeData = Object.entries(heatmapData).map(([countryCode, data]) => ({
+        lat: data.lat,
+        lng: data.lng,
+        size: data.count / 100, // Scale down for better visualization
+        color: ['red', 'white', 'blue', 'green', 'yellow'][Math.floor(Math.random() * 5)], // Random Olympic colors
+        country: noc_to_country[countryCode] || countryCode,
+        medals: data.count
+    }));
+
+    // Clear previous globe if exists
+    const container = document.getElementById('globe');
+    if (globeInstance) {
+        globeInstance.removeChild(container.children[0]);
+    }
+
+    // Create new globe instance
+    globeInstance = Globe()
+        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+        .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+        .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+        .showAtmosphere(true)
+        .atmosphereColor('rgba(0, 102, 179, 0.5)') // Olympic blue
+        .atmosphereAltitude(0.25)
+        .hexBinPointWeight('size')
+        .hexAltitude(d => d.size * 0.5) // Height of the bars
+        .hexBinResolution(4)
+        .hexTopColor(d => d.color)
+        .hexSideColor(d => d3.color(d.color).darker(0.5))
+        .hexBinMerge(true)
+        .enablePointerInteraction(true)
+        .hexLabel(d => {
+            const total = d.points.reduce((sum, pt) => sum + pt.size, 0);
+            return `
+            <div style="text-align: center;">
+                <b>${d.points[0].country}</b>
+                <div>Medals: <b>${Math.round(total * 50)}</b></div>
+            </div>
+            `;
+        })
+        (container);
+
+    // Add data to the globe
+    globeInstance.hexBinPoints(globeData);
+
+    // Auto-rotate
+    globeInstance.controls().autoRotate = true;
+    globeInstance.controls().autoRotateSpeed = 0.5;
+
+    return globeInstance;
+}*/
+
+function createGlobe(heatmapData) {
+    console.log(heatmapData)
+
+    // Convert heatmap data to globe.gl format
+    const globeData = Object.entries(heatmapData).map(([countryCode, data]) => ({
+        lat: data.lat,
+        lng: data.lng,
+        weight: data.count / 1000, // Scale down the medal count for better visualization
+        country: noc_to_country[countryCode] || countryCode,
+        medals: data.count
+    }));
+
+    // Clear previous globe if exists
+    const container = document.getElementById('globe');
+    if (globeInstance) {
+        globeInstance.removeChild(container.children[0]);
+    }
+
+    globeInstance = new Globe(document.getElementById('globe'))
+      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+      .width(container.offsetWidth)
+      .height(container.offsetHeight)
+      .showAtmosphere(true)
+      .heatmapsData([globeData])
+      .heatmapPointLat('lat')
+      .heatmapPointLng('lng')
+      .heatmapPointWeight('medals')
+      .heatmapTopAltitude(0.5)
+      .heatmapsTransitionDuration(3000)
+      .enablePointerInteraction(false);
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        globeInstance.width(container.offsetWidth)
+                     .height(container.offsetHeight);
+    });
+}
+
+// Add this function to toggle between 2D and 3D views
+function toggle3DView() {
+    is3DView = !is3DView;
+    
+    if (is3DView) {
+        document.getElementById('map').style.display = 'none';
+        document.getElementById('globe').style.display = 'block';
+        document.getElementById('toggle-3d-btn').textContent = 'Switch to 2D View';
+        
+        // Initialize globe if not already done
+        if (!globeInstance && window.heatmapData) {
+            globeInstance = createGlobe(window.heatmapData);
+        }
+    } else {
+        document.getElementById('map').style.display = 'block';
+        document.getElementById('globe').style.display = 'none';
+        document.getElementById('toggle-3d-btn').textContent = 'Switch to 3D View';
+    }
+}
 
 function generateHeatData(heatmapData) {
     const data = Object.values(heatmapData).map(entry => [
@@ -36,6 +207,9 @@ function initializeCharts() {
         console.log("Medal Efficiency Data:", data.medal_efficiency);
         // Store the heatmap data globally
         window.heatmapData = data.heatmap || {};
+
+        // Initialize the globe (but keep it hidden)
+        createGlobe(window.heatmapData);
 
         createChart('genderChart', 'doughnut', {...data.gender, backgroundColor: ['#0066B3', '#F11C22']});
         createChart('sportsChart', 'bar', {...data.sports, backgroundColor: ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F']});
@@ -111,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const countryName = feature.properties.name;
                     layer.on('click', () => {
                         document.getElementById('country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
-                        document.getElementById('enlarged-country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
+                        //document.getElementById('enlarged-country-info').innerText = `You clicked on ${countryName}. Olympic stats coming soon!`;
                     });
                     layer.on('mouseover', () => {
                         layer.setStyle({ fillOpacity: 0.9 });
@@ -131,8 +305,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const countryInfo = document.getElementById('country-info');
     const enlargedCountryInfo = document.getElementById('enlarged-country-info');
     const toggleHeatmapBtn = document.getElementById('toggle-heatmap-btn');
+    const toggle3DBtn = document.getElementById('toggle-3d-btn');
 
-    fullscreenBtn.addEventListener('click', () => {
+    /*fullscreenBtn.addEventListener('click', () => {
         // Disable body scroll
         document.body.classList.add('body-no-scroll');
         
@@ -188,9 +363,15 @@ document.addEventListener("DOMContentLoaded", () => {
             // If enlarged map already exists, just sync its view
             window.enlargedMapInstance.setView(map.getCenter(), map.getZoom());
         }
+    });*/
+
+    // New fullscreen functionality: lead user to index.html in fullscreen_map folder
+    fullscreenBtn.addEventListener('click', () => {
+        // Redirect to the fullscreen map page
+        window.location.href = 'fullscreen_map/index.html';
     });
 
-    exitFullscreenBtn.addEventListener('click', () => {
+    /*exitFullscreenBtn.addEventListener('click', () => {
             // Re-enable body scroll
             document.body.classList.remove('body-no-scroll');
             
@@ -210,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Reset the enlarged heatmap visibility state
             isEnlargedHeatmapVisible = false;
-    });
+    });*/
 
     toggleHeatmapBtn.addEventListener('click', () => {
         console.log("Heatmap toggle clicked!");
@@ -242,4 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isHeatmapVisible = !isHeatmapVisible;
     });
 
+    toggle3DBtn.addEventListener('click', () => {
+        toggle3DView();
+    });
 });
