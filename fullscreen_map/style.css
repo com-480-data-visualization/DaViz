@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    height: 100vh; /* Ensure the body covers the full viewport height */
+    background: linear-gradient(135deg, rgba(0,102,179,0.9) 0%, rgba(0,150,57,0.9) 100%);
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight: 200;
+    font-size: 17px;
+}
+#map-holder {
+    /* Center the map-holder in the top middle of the screen */
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80vw;
+    height: 80vh;
+    border: 2px solid #000; /* Add a black border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+
+svg rect {
+    fill: #afe7ee;   /* map background colour */
+}
+
+.country{
+    fill: #ffffff;   /* country colour */
+    stroke: #2A2C39; /* country border colour */
+    stroke-width: 1; /* country border width */
+}
+.country-on{
+    fill: #e29f3a;   /* highlight colour for selected country */
+}
+.countryLabel{
+    display: none;   /* hide all country labels by default */
+}
+.countryName{
+    fill: #FFFAFF;   /* country label text colour */
+}
+.countryLabelBg{
+    fill: #30BCED;   /* country label background colour */
+}
+
+#navigate-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #e7c97b;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#navigate-button:hover {
+    background-color: #dec13e;
+}
