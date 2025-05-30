@@ -128,6 +128,63 @@ function createPieChart(data, containerId) {
     console.log('Data ready for pie chart:', data_ready); // Debugging log
 }
 
+// Function to create a line chart for the evolution of participants
+function createLineChart(data, containerId) {
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Set up scales
+    const x = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.year))
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .nice()
+        .range([height, 0]);
+
+    // Add axes
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x).tickFormat(d3.format('d')));
+
+    svg.append('g')
+        .call(d3.axisLeft(y));
+
+    // Add line
+    const line = d3.line()
+        .x(d => x(d.year))
+        .y(d => y(d.count));
+
+    svg.append('path')
+        .datum(data)
+        .attr('fill', 'none')
+        .attr('stroke', '#007BFF') // Olympic blue
+        .attr('stroke-width', 2)
+        .attr('d', line);
+
+    // Add points
+    svg.selectAll('.dot')
+        .data(data)
+        .enter().append('circle')
+        .attr('class', 'dot')
+        .attr('cx', d => x(d.year))
+        .attr('cy', d => y(d.count))
+        .attr('r', 4)
+        .attr('fill', '#007BFF');
+}
+
 fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
     const colorScale = scaleSequentialSqrt(interpolateYlOrRd);
 
@@ -270,6 +327,21 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
         pieChartContainer.style.marginTop = '80px'; // Set a fixed width for the pie chart
         popupCharts.appendChild(pieChartContainer);
 
+        const popupParticipantsCount = document.createElement('p');
+        popupParticipantsCount.id = 'popup-participants-count';
+        popupParticipantsCount.innerText = 'Evolution number of participants:';
+        popupParticipantsCount.style.color = '#333';
+        popupParticipantsCount.style.fontSize = '1.2em';
+        popupContent.appendChild(popupParticipantsCount);
+
+        // Create a container for the line chart
+        const lineChartContainer = document.createElement('div');
+        lineChartContainer.id = 'popup-line-chart';
+        lineChartContainer.style.flex = '1'; // Allow the line chart to span the full width
+        lineChartContainer.style.marginTop = '20px';
+        lineChartContainer.style.width = '100%';
+        popupContent.appendChild(lineChartContainer);
+
         // Add click event to display country statistics in the popup
         world.onPolygonClick(clickedD => {
             const isoCode = clickedD.properties.ADM0_A3;
@@ -280,6 +352,7 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
             document.getElementById('popup-medal-count').textContent = `Total Medals: ${medalCount}`;
             document.getElementById('popup-charts').innerHTML = '<i>Future D3.js charts will go here.</i>';
             document.getElementById('popup-pie-chart').innerHTML = '<i>Future D3.js pie chart will go here.</i>';
+            document.getElementById('popup-line-chart').innerHTML = '<i>Future D3.js line chart will go here.</i>';
 
             popup.style.display = 'block';
         });
@@ -347,6 +420,35 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
                 });
                 
                 createPieChart(pieData, 'popup-pie-chart');
+
+                // Aggregate participant counts by year
+                const participantCounts = d3.rollups(
+                    countryData,
+                    v => new Set(v.map(d => d.ID)).size, // Count unique participants
+                    d => +d.Year
+                ).map(([year, count]) => ({ year, count }));
+
+                // Sort by year
+                participantCounts.sort((a, b) => a.year - b.year);
+
+                // Create the line chart
+                createLineChart(participantCounts, 'popup-line-chart');
+
+                // Filter data for the selected country
+                const allParticipants = csvData.filter(d => (d.Team === countryName || d.NOC === isoCode));
+
+                // Aggregate participant counts by year
+                const allParticipantCounts = d3.rollups(
+                    allParticipants,
+                    v => new Set(v.map(d => d.ID)).size, // Count unique participants
+                    d => +d.Year
+                ).map(([year, count]) => ({ year, count }));
+
+                // Sort by year
+                allParticipantCounts.sort((a, b) => a.year - b.year);
+
+                // Create the line chart
+                createLineChart(allParticipantCounts, 'popup-line-chart');
 
                 popup.style.display = 'block';
             });
