@@ -1,77 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>Olympic History Explorer</title>
-  <link rel="icon" href="assets/olympic-icon.png" type="image/png" />
-  
-  <!-- Bootstrap & Font Awesome -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Olympic History Explorer</title>
+    <link rel="icon" href="assets/olympic-icon.png" type="image/png" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Varela+Round|Nunito:200,300,400,600,700" rel="stylesheet" />
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-  <!-- Custom styles -->
-  <link rel="stylesheet" href="docs/style.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round|Nunito:200,300,400,600,700" rel="stylesheet" />
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="docs/style.css" />
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 
 </head>
 
 <body id="page-top">
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="#page-top">Olympic Explorer</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#explore">Explore</a></li>
-          <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-        </ul>
-      </div>
+        <a class="navbar-brand" href="#page-top">Olympic Explorer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#explore">Explore</a></li>
+                <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+            </ul>
+        </div>
     </div>
-  </nav>
+</nav>
 
-  <!-- Masthead -->
-  <header class="masthead text-center text-white">
+<!-- Masthead -->
+<header class="masthead text-center text-white">
     <div class="container d-flex align-items-center flex-column">
-      <h1 class="masthead-heading text-uppercase mb-0">120 Years of Olympic History</h1>
-      <p class="masthead-subheading font-weight-light mb-5">Athletes, Countries & Medals — An Interactive Journey</p>
-      <a class="btn btn-primary btn-xl" href="#about">Start Exploring</a>
+        <h1 class="masthead-heading text-uppercase mb-0">120 Years of Olympic History</h1>
+        <p class="masthead-subheading font-weight-light mb-5">Athletes, Countries & Medals — An Interactive Journey</p>
+        <a class="btn btn-primary btn-xl" href="#about">Start Exploring</a>
     </div>
-  </header>
+</header>
 
-  <!-- About -->
-  <section class="page-section bg-primary text-white mb-0" id="about">
+<!-- About -->
+<section class="page-section bg-primary text-white mb-0" id="about">
     <div class="container text-center">
-      <h2 class="page-section-heading text-center text-uppercase text-white">About This Project</h2>
-      <p class="lead">This interactive website visualizes the Olympic Games dataset (1896–2016), showcasing athlete performance, national participation, and medal trends. Powered by Bootstrap, JavaScript, and love for data.</p>
+        <h2 class="page-section-heading text-center text-uppercase text-white">About This Project</h2>
+        <p class="lead">This interactive website visualizes the Olympic Games dataset (1896–2016), showcasing athlete performance, national participation, and medal trends. Powered by Bootstrap, JavaScript, and love for data.</p>
     </div>
-  </section>
+</section>
 
-  <!-- Explore Basic Statistics -->
-  <section class="page-section" id="explore">
+<!-- Explore Basic Statistics -->
+<section class="page-section" id="explore">
     <div class="container">
         <h2 class="text-center text-uppercase text-secondary mb-5">Explore Basic Statistics </h2>
-        
+
         <!-- Dropdown Section -->
         <div class="accordion" id="olympicStatsAccordion">
             <!-- Athlete Statistics -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingAthletes">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseAthletes" aria-expanded="false" aria-controls="collapseAthletes">
                         Athlete Statistics
                     </button>
                 </h2>
-                <div id="collapseAthletes" class="accordion-collapse collapse" aria-labelledby="headingAthletes" 
+                <div id="collapseAthletes" class="accordion-collapse collapse" aria-labelledby="headingAthletes"
                      data-bs-parent="#olympicStatsAccordion">
                     <div class="accordion-body">
                         <div class="row">
@@ -87,22 +87,22 @@
                     </div>
 
                     <p class="text-center mt-3 fun-fact">
-                      <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
-                      <small class="ms-2">The 1904 Olympic marathon winner was given strychnine and brandy during the race, while another competitor was disqualified for riding in a car!</small>
-                    </p> 
+                        <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
+                        <small class="ms-2">The 1904 Olympic marathon winner was given strychnine and brandy during the race, while another competitor was disqualified for riding in a car!</small>
+                    </p>
 
                 </div>
             </div>
-            
+
             <!-- Medal Statistics -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingMedals">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseMedals" aria-expanded="false" aria-controls="collapseMedals">
                         Medal Statistics
                     </button>
                 </h2>
-                <div id="collapseMedals" class="accordion-collapse collapse" aria-labelledby="headingMedals" 
+                <div id="collapseMedals" class="accordion-collapse collapse" aria-labelledby="headingMedals"
                      data-bs-parent="#olympicStatsAccordion">
                     <div class="accordion-body">
                         <div class="row">
@@ -115,27 +115,27 @@
                                 <canvas id="countryChart" width="400" height="300"></canvas>
                             </div>
                             <div class="col-md-4">
-                              <h5>Top 5 Most Efficient Countries</h5>
-                              <canvas id="efficiencyChart" width="400" height="300"></canvas>
+                                <h5>Top 5 Most Efficient Countries</h5>
+                                <canvas id="efficiencyChart" width="400" height="300"></canvas>
                             </div>
                         </div>
                     </div>
                     <p class="text-center mt-3 fun-fact">
-                      <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
-                      <small class="ms-2">The Olympic gold medals haven't been solid gold since 1912 - they're actually silver with gold plating!</small>
-                    </p>                
-                  </div>
+                        <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
+                        <small class="ms-2">The Olympic gold medals haven't been solid gold since 1912 - they're actually silver with gold plating!</small>
+                    </p>
+                </div>
             </div>
-            
+
             <!-- Age/Height/Weight Statistics -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingPhysical">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapsePhysical" aria-expanded="false" aria-controls="collapsePhysical">
                         Physical Attributes
                     </button>
                 </h2>
-                <div id="collapsePhysical" class="accordion-collapse collapse" aria-labelledby="headingPhysical" 
+                <div id="collapsePhysical" class="accordion-collapse collapse" aria-labelledby="headingPhysical"
                      data-bs-parent="#olympicStatsAccordion">
                     <div class="accordion-body">
                         <div class="row">
@@ -154,120 +154,213 @@
                         </div>
                     </div>
                     <p class="text-center mt-3 fun-fact">
-                      <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
-                      <small class="ms-2">The oldest Olympic competitor was 72-year-old Oscar Swahn who won silver in shooting at the 1920 Games!</small>
-                    </p>                 
-                  </div>
+                        <span class="badge bg-olympic-blue">DID YOU KNOW?</span>
+                        <small class="ms-2">The oldest Olympic competitor was 72-year-old Oscar Swahn who won silver in shooting at the 1920 Games!</small>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-  </section>
+</section>
 
-  <!-- Explore the Map -->
-  <section class="page-section" id="explore-map" style="background: linear-gradient(135deg, rgba(0,102,179,0.9) 0%, rgba(0,150,57,0.9) 100%); color: white;">
+<!-- Explore the Map -->
+<section class="page-section" id="explore-map" style="background: linear-gradient(135deg, rgba(0,102,179,0.9) 0%, rgba(0,150,57,0.9) 100%); color: white;">
     <div class="container">
-      <h2 class="text-center text-uppercase mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Explore the Map</h2>
-      <div class="row justify-content-center">
-        <div class="col-12">
-          <!--
-          <div class="text-center">
-            <img src="assets/map.jpg" alt="Olympic Participation Map" class="img-fluid rounded shadow-lg" style="max-height: 80vh; width: auto; border: 4px solid white;">
-            <p class="mt-3 lead" style="color: #FFCC00;">Geographic visualization of Olympic participation and medal distribution from 1896 to 2016.</p>
-          </div> -->
-          <!-- Change the map container style to make the map smaller -->
-          <div style="position: relative; margin: 0 auto; max-width: 800px;">
-            <button id="fullscreen-btn" class="btn btn-warning btn-sm" 
-                    style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
-              Full Screen
-            </button>
-            <button id="toggle-heatmap-btn" class="btn btn-danger btn-sm" 
-                    style="position: absolute; top: 50px; right: 10px; z-index: 1000;">
-              Toggle Heatmap
-            </button>
-            <button id="toggle-3d-btn" class="btn btn-info btn-sm" 
-                    style="position: absolute; top: 90px; right: 10px; z-index: 1000;">
-              Switch to 3D View
-            </button>
-            
-            <!-- 2D Map container -->
-            <div id="map" style="height: 400px; border-radius: 8px;"></div>
-            
-            <!-- 3D Globe (hidden initially) -->
-            <div id="globe" style="height: 400px; border-radius: 8px; display: none;"></div>
-          </div>
+        <h2 class="text-center text-uppercase mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Explore the Map</h2>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!--
+                <div class="text-center">
+                  <img src="assets/map.jpg" alt="Olympic Participation Map" class="img-fluid rounded shadow-lg" style="max-height: 80vh; width: auto; border: 4px solid white;">
+                  <p class="mt-3 lead" style="color: #FFCC00;">Geographic visualization of Olympic participation and medal distribution from 1896 to 2016.</p>
+                </div> -->
+                <!-- Change the map container style to make the map smaller -->
+                <div style="position: relative; margin: 0 auto; max-width: 800px;">
+                    <button id="fullscreen-btn" class="btn btn-warning btn-sm"
+                            style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
+                        Full Screen
+                    </button>
+                    <button id="toggle-heatmap-btn" class="btn btn-danger btn-sm"
+                            style="position: absolute; top: 50px; right: 10px; z-index: 1000;">
+                        Toggle Heatmap
+                    </button>
+                    <button id="toggle-3d-btn" class="btn btn-info btn-sm"
+                            style="position: absolute; top: 90px; right: 10px; z-index: 1000;">
+                        Switch to 3D View
+                    </button>
 
-          <div id="country-info" class="mt-3 text-center fw-bold fs-5 text-light"></div>
+                    <!-- 2D Map container -->
+                    <div id="map" style="height: 400px; border-radius: 8px;"></div>
 
-          <!-- Map overlay -->
-          <!--<div id="map-overlay" class="enlarged-map-container">
-            <div style="position: relative; margin: 0 auto; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;">
-              <button id="exit-fullscreen-btn" class="btn btn-warning btn-sm" 
-                      style="position: absolute; top: 20px; right: 10px; z-index: 1001;">
-                Exit Enlarged View
-              </button>
-              <div id="enlarged-map" style="width: 80%; height: 80%;"></div>
-                  style="position: absolute; bottom: 20px; width: 100%;"></div>
-              </div>
-          </div>-->
+                    <!-- 3D Globe (hidden initially) -->
+                    <div id="globe" style="height: 400px; border-radius: 8px; display: none;"></div>
+                </div>
 
+                <div id="country-info" class="mt-3 text-center fw-bold fs-5 text-light"></div>
+
+                <div id="medal-charts-container" class="mt-4 d-none">
+                    <ul class="nav nav-tabs justify-content-center mb-3" id="seasonTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="summer-tab" data-bs-toggle="tab" data-bs-target="#summer" type="button">Summer Olympics</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="winter-tab" data-bs-toggle="tab" data-bs-target="#winter" type="button">Winter Olympics</button>
+                        </li>
+                    </ul>
+
+                    <style>
+                        .medals-table-container {
+                            overflow-x: auto;
+                            margin-top: 20px;
+                        }
+
+                        .medals-table-container thead {
+                            background: linear-gradient(90deg,
+                            #0088CE 0%,   /* Синий */
+                            #FFD700 34%,  /* Жёлтый */
+                            #C0C0C0 60%,  /* серый */
+                            #CD7F32 100%  /* корич */
+                            );
+                            color: white;
+                        }
+
+                        .medals-table-container table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background-color: #fff;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                            font-size: 0.95rem;
+                            border-radius: 10px;
+                            overflow: hidden;
+                        }
+
+                        .medals-table-container th,
+                        .medals-table-container td {
+                            padding: 14px 18px;
+                            text-align: center;
+                            border-bottom: 1px solid #ddd;
+                            transition: background-color 0.3s ease;
+                        }
+
+                        /* Выделение первого столбца (Год) */
+                        .medals-table-container th:first-child,
+                        .medals-table-container td:first-child {
+                            background-color: #f1f1f1;
+                            font-weight: bold;
+                            text-align: left;
+                            color: #555;
+                        }
+
+                        /* Цветные ячейки медалей */
+                        .gold-cell {
+                            background-color: #FFF380;
+                            color: #8B7500;
+                            font-weight: bold;
+                        }
+
+                        .silver-cell {
+                            background-color: #E0E0E0;
+                            color: #6b6b6b;
+                            font-weight: bold;
+                        }
+
+                        .bronze-cell {
+                            background-color: #D2A57E;
+                            color: #8B5E3C;
+                            font-weight: bold;
+                        }
+
+
+                    </style>
+
+                    <div class="tab-content" id="seasonTabsContent">
+                        <div class="tab-pane fade show active" id="summer" role="tabpanel">
+                            <div class="chart-container mb-4">
+                                <canvas id="summerMedalsChart" width="600" height="200"></canvas>
+                            </div>
+                            <div id="summerMedalsTable" class="medals-table-container"></div>
+                        </div>
+                        <div class="tab-pane fade" id="winter" role="tabpanel">
+                            <div class="chart-container mb-4">
+                                <canvas id="winterMedalsChart" width="600" height="200"></canvas>
+                            </div>
+                            <div id="winterMedalsTable" class="medals-table-container"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Map overlay -->
+                <!--<div id="map-overlay" class="enlarged-map-container">
+                  <div style="position: relative; margin: 0 auto; height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;">
+                    <button id="exit-fullscreen-btn" class="btn btn-warning btn-sm"
+                            style="position: absolute; top: 20px; right: 10px; z-index: 1001;">
+                      Exit Enlarged View
+                    </button>
+                    <div id="enlarged-map" style="width: 80%; height: 80%;"></div>
+                        style="position: absolute; bottom: 20px; width: 100%;"></div>
+                    </div>
+                </div>-->
+
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- Team -->
-  <section class="page-section bg-light" id="team">
+<!-- Team -->
+<section class="page-section bg-light" id="team">
     <div class="container">
-      <h2 class="text-center text-uppercase">Our Team</h2>
-      <div class="row text-center mt-4">
-        <div class="col-md-4">
-          <div class="team-member">
-            <img src="assets/team-member1.jpg" alt="Dmitry Teploukhov" class="rounded-circle img-fluid mb-4">
-            <h5>Dmitry Teploukhov</h5>
-          </div>
+        <h2 class="text-center text-uppercase">Our Team</h2>
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <div class="team-member">
+                    <img src="assets/team-member1.jpg" alt="Dmitry Teploukhov" class="rounded-circle img-fluid mb-4">
+                    <h5>Dmitry Teploukhov</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <img src="assets/team-member2.jpg" alt="Tuan Dang Nguyen" class="rounded-circle img-fluid mb-4">
+                    <h5>Tuan Dang Nguyen</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <img src="assets/team-member3.jpg" alt="Kokkalera Yaash Nachappa" class="rounded-circle img-fluid mb-4">
+                    <h5>Kokkalera Yaash Nachappa</h5>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-          <div class="team-member">
-            <img src="assets/team-member2.jpg" alt="Tuan Dang Nguyen" class="rounded-circle img-fluid mb-4">
-            <h5>Tuan Dang Nguyen</h5>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="team-member">
-            <img src="assets/team-member3.jpg" alt="Kokkalera Yaash Nachappa" class="rounded-circle img-fluid mb-4">
-            <h5>Kokkalera Yaash Nachappa</h5>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- Footer -->
-  <footer class="footer bg-dark text-white-50 text-center py-3">
+<!-- Footer -->
+<footer class="footer bg-dark text-white-50 text-center py-3">
     <div class="container">
-      © 2025 Olympic Data Project
-      <br />
-      Made With Love, Not With Skill :)
+        © 2025 Olympic Data Project
+        <br />
+        Made With Love, Not With Skill :)
     </div>
-  </footer>
+</footer>
 
-  <!-- Bootstrap core JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- Leaflet core -->
-  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-  <script src="https://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>
+<!-- Bootstrap core JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Leaflet heat plugin -->
-  <script src="leaflet-heat.js"></script>
+<!-- Leaflet core -->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src="https://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>
 
-  <!-- Add these after your existing Leaflet scripts -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://unpkg.com/globe.gl"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Leaflet heat plugin -->
+<script src="leaflet-heat.js"></script>
 
-  <!-- Custom JS -->
-  <script src="./docs/script.js"></script>
+<!-- Add these after your existing Leaflet scripts -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/globe.gl"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- Custom JS -->
+<script src="./docs/script.js"></script>
 
 </body>
 </html>
