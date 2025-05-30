@@ -1,7 +1,6 @@
 let heatmapLayer;
 let isHeatmapVisible = false;
 
-// Add these variables at the top of your script.js
 let globeInstance;
 let is3DView = false;
 
