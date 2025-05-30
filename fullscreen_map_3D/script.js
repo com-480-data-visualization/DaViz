@@ -198,6 +198,14 @@ function createInteractiveLineChart(data, containerId) {
             // Update line and points
             linePath.attr('d', line.x(d => newX(d.year)));
             points.attr('cx', d => newX(d.year));
+        })
+        .on('end', (event) => {
+            // Reset to original position when fully zoomed out
+            if (event.transform.k === 1) {
+                xAxis.call(d3.axisBottom(x).tickFormat(d3.format('d')));
+                linePath.attr('d', line.x(d => x(d.year)));
+                points.attr('cx', d => x(d.year));
+            }
         });
 
     svg.append('rect')
