@@ -3,9 +3,30 @@
   <link rel="stylesheet" href="./style.css" />
 
   <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
+
+  <style>
+    #navigate-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #e7c97b;
+      color: black;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #navigate-button:hover {
+      background-color: #dec13e;
+    }
+  </style>
 </head>
 
 <body>
+  <button id="navigate-button" onclick="window.location.href='../fullscreen_map/index.html'">2D</button>
   <div id="globeViz"></div>
   <div id="legend"></div>
 
