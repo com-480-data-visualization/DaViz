@@ -1,3 +1,5 @@
+**Website:** https://com-480-data-visualization.github.io/DaViz/
+
 # Olympic History Explorer
 
 **Olympic History Explorer** is an interactive web application developed as part of the COM-480 Data Visualization course at EPFL. It offers comprehensive visualizations of Olympic Games data from 1896 to 2016, highlighting athlete performances, national participation, and medal trends.
