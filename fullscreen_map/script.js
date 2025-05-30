@@ -155,6 +155,15 @@ d3.json(
                 d3.selectAll(".country").classed("country-on", false);
                 d3.select(this).classed("country-on", true);
                 boxZoom(path.bounds(d), path.centroid(d), 20);
+
+                // Add click event to display country statistics in the popup
+                console.log('Country clicked:', d.properties.admin); // Debugging log to check if the event is firing
+
+                const countryName = d.properties.admin; // Adjust based on your GeoJSON structure
+                const event = new CustomEvent("countrySelected", { detail: { countryName } });
+                document.dispatchEvent(event);
+                
+                console.log('Event dispatched:', countryName); // Debugging log to check if the event is dispatched
             });
         
         // Add a label group to each feature/country. This will contain the country name and a background rectangle
@@ -206,6 +215,73 @@ d3.json(
         initiateZoom();
     }
 );
+
+// Add a popup overlay for country statistics
+const popup = document.createElement('div');
+popup.id = 'country-popup';
+popup.style.display = 'none';
+popup.style.position = 'fixed';
+popup.style.top = '0';
+popup.style.left = '0';
+popup.style.width = '100%';
+popup.style.height = '100%';
+popup.style.background = 'rgba(0, 0, 0, 0.8)';
+popup.style.color = 'white';
+popup.style.zIndex = '1000';
+popup.style.overflow = 'auto';
+document.body.appendChild(popup);
+
+const popupContent = document.createElement('div');
+popupContent.style.position = 'relative';
+popupContent.style.margin = '50px auto';
+popupContent.style.padding = '20px';
+popupContent.style.background = '#ffffff';
+popupContent.style.color = '#333';
+popupContent.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+popupContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+popupContent.style.borderRadius = '10px';
+popupContent.style.width = '80%';
+popupContent.style.maxWidth = '800px';
+popup.appendChild(popupContent);
+
+const popupHeader = document.createElement('div');
+popupHeader.style.display = 'flex';
+popupHeader.style.justifyContent = 'space-between';
+popupHeader.style.alignItems = 'center';
+
+const popupCountryName = document.createElement('h2');
+popupCountryName.id = 'popup-country-name';
+popupCountryName.innerText = 'Country Name';
+popupCountryName.style.margin = '0';
+popupCountryName.style.color = '#ffcc00'; // Olympic gold
+popupHeader.appendChild(popupCountryName);
+
+const closeButton = document.createElement('button');
+closeButton.id = 'close-popup';
+closeButton.innerText = 'Close';
+closeButton.style.background = '#ff0000'; // Olympic red
+closeButton.style.color = '#ffffff';
+closeButton.style.fontWeight = 'bold';
+closeButton.style.border = 'none';
+closeButton.style.padding = '5px 10px';
+closeButton.style.cursor = 'pointer';
+closeButton.style.borderRadius = '5px';
+popupHeader.appendChild(closeButton);
+
+popupContent.appendChild(popupHeader);
+
+const popupMedalCount = document.createElement('p');
+popupMedalCount.id = 'popup-medal-count';
+popupMedalCount.innerText = 'Medals: 0';
+popupMedalCount.style.color = '#333';
+popupMedalCount.style.fontSize = '1.2em';
+popupMedalCount.style.fontWeight = 'bold';
+popupContent.appendChild(popupMedalCount);
+
+// Add event listener to close the popup
+closeButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
 
 // Modify the Collapse button to pass along scroll position
 document.getElementById('collapse-button').addEventListener('click', () => {

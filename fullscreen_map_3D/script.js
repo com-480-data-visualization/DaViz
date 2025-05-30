@@ -285,20 +285,6 @@ function createTopSportsRanking(data, containerId) {
     }
 }
 
-// Add tooltip div to the body
-if (!document.getElementById('tooltip')) {
-    const tooltip = document.createElement('div');
-    tooltip.id = 'tooltip';
-    tooltip.style.position = 'absolute';
-    tooltip.style.background = '#333';
-    tooltip.style.color = '#fff';
-    tooltip.style.padding = '5px 10px';
-    tooltip.style.borderRadius = '5px';
-    tooltip.style.opacity = '0';
-    tooltip.style.pointerEvents = 'none';
-    document.body.appendChild(tooltip);
-}
-
 fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
     const colorScale = scaleSequentialSqrt(interpolateYlOrRd);
 

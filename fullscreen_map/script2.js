@@ -1,0 +1,437 @@
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+
+// Function to create a bar chart for medal counts by year
+function createBarChart(data, containerId) {
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const barWidth = 40; // Fixed width for each bar
+    const width = Math.max(data.length * barWidth, 600) - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Set up scales
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([0, width])
+        .padding(0.1);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .nice()
+        .range([height, 0]);
+
+    // Add axes
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x).tickFormat(d3.format('d')));
+
+    svg.append('g')
+        .call(d3.axisLeft(y));
+
+    // Add bars with animation
+    svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.year))
+        .attr('y', height) // Start at the bottom
+        .attr('width', x.bandwidth())
+        .attr('height', 0) // Start with height 0
+        .attr('fill', '#ffcc00') // Olympic gold color
+        .transition() // Add animation
+        .duration(800)
+        .attr('y', d => y(d.count))
+        .attr('height', d => height - y(d.count));
+
+    // Make the chart scrollable if it overflows
+    d3.select(`#${containerId}`).style('overflow-x', 'auto');
+    d3.select(`#${containerId} svg`).style('min-width', `${width + margin.left + margin.right}px`);
+}
+
+function createPieChart(data, containerId) {
+    const width = 300; // Adjusted width
+    const height = 300; // Adjusted height
+    const radius = Math.min(width, height) / 2;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .style('background', '#f9f9f9') // Add background for visibility
+        .append('g')
+        .attr('transform', `translate(${width / 2},${height / 2})`);
+
+    const color = d3.scaleOrdinal()
+        .domain(Object.keys(data))
+        .range(['#ffd700', '#c0c0c0', '#cd7f32']);
+
+    const pie = d3.pie()
+        .value(d => d.value);
+
+    //data's format is [{}, {}, {}]
+    // Convert data to the format expected by d3.pie
+    // Ensure data is in the correct format for d3.pie
+    const data_ready = pie(data.map(d => ({ key: d.year, value: d.count })));
+
+    const arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+    svg.selectAll('path')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.key))
+        .attr('stroke', 'white')
+        .style('stroke-width', '2px')
+        .style('opacity', 0.8);
+
+    // Add labels to ensure visibility
+    svg.selectAll('text')
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .text(d => `${d.data.key}: ${d.data.value}`)
+        .attr('transform', d => `translate(${arc.centroid(d)})`)
+        .style('text-anchor', 'middle')
+        .style('font-size', '12px')
+        .style('fill', '#333');
+
+    console.log('Data ready for pie chart:', data_ready); // Debugging log
+}
+
+// Upgraded the line chart to include zooming functionality on the x-axis. Users can zoom in and out to see more details, and the chart updates correspondingly.
+function createInteractiveLineChart(data, containerId) {
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Set up scales
+    const x = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.year))
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .nice()
+        .range([height, 0]);
+
+    // Add axes
+    const xAxis = svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x).tickFormat(d3.format('d')));
+
+    const yAxis = svg.append('g')
+        .call(d3.axisLeft(y));
+
+    // Add line
+    const line = d3.line()
+        .x(d => x(d.year))
+        .y(d => y(d.count));
+
+    const linePath = svg.append('path')
+        .datum(data)
+        .attr('fill', 'none')
+        .attr('stroke', '#007BFF') // Olympic blue
+        .attr('stroke-width', 2)
+        .attr('d', line);
+
+    // Add points
+    const points = svg.selectAll('.dot')
+        .data(data)
+        .enter().append('circle')
+        .attr('class', 'dot')
+        .attr('cx', d => x(d.year))
+        .attr('cy', d => y(d.count))
+        .attr('r', 4)
+        .attr('fill', '#007BFF');
+
+    // Add zoom functionality
+    const zoom = d3.zoom()
+        .scaleExtent([1, 10]) // Allow zooming in and out
+        .translateExtent([[0, 0], [width, height]]) // Limit panning
+        .on('zoom', (event) => {
+            const transform = event.transform;
+            const newX = transform.rescaleX(x);
+
+            // Update axes
+            xAxis.call(d3.axisBottom(newX).tickFormat(d3.format('d')));
+
+            // Update line and points
+            linePath.attr('d', line.x(d => newX(d.year)));
+            points.attr('cx', d => newX(d.year));
+        })
+        .on('end', (event) => {
+            // Reset to original position when fully zoomed out
+            if (event.transform.k === 1) {
+                xAxis.call(d3.axisBottom(x).tickFormat(d3.format('d')));
+                linePath.attr('d', line.x(d => x(d.year)));
+                points.attr('cx', d => x(d.year));
+            }
+        });
+
+    svg.append('rect')
+        .attr('width', width)
+        .attr('height', height)
+        .style('fill', 'none')
+        .style('pointer-events', 'all')
+        .call(zoom);
+}
+
+function createTopSportsRanking(data, containerId) {
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const width = 400 - margin.left - margin.right;
+    const height = 300 - margin.top - margin.bottom;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Set up scales
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.sport))
+        .range([0, width])
+        .padding(0.4);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .nice()
+        .range([height, 0]);
+
+    // Add axes
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x));
+
+    svg.append('g')
+        .call(d3.axisLeft(y));
+
+    // Add bars
+    const bars = svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.sport))
+        .attr('y', d => y(d.count))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - y(d.count))
+        .attr('fill', '#ffcc00') // Olympic yellow
+        .on('mouseover', function (event, d) {
+            const tooltip = d3.select('#tooltip');
+            tooltip.style('opacity', 1)
+                .html(`${d.sport}: ${d.count} medals`)
+                .style('left', `${event.pageX + 10}px`)
+                .style('top', `${event.pageY - 20}px`);
+        })
+        .on('mouseout', function () {
+            d3.select('#tooltip').style('opacity', 0);
+        });
+
+    // Add tooltip container
+    if (!d3.select('#tooltip').node()) {
+        d3.select('body').append('div')
+            .attr('id', 'tooltip')
+            .style('position', 'absolute')
+            .style('background', '#fff')
+            .style('border', '1px solid #ccc')
+            .style('padding', '5px')
+            .style('border-radius', '5px')
+            .style('pointer-events', 'none')
+            .style('opacity', 0);
+    }
+}
+
+ // Full-screen popup overlay for country statistics
+const popup = document.createElement('div');
+popup.id = 'country-popup';
+popup.style.display = 'none';
+popup.style.position = 'fixed';
+popup.style.top = '0';
+popup.style.left = '0';
+popup.style.width = '100%';
+popup.style.height = '100%';
+popup.style.background = 'rgba(0, 0, 0, 0.8)';
+popup.style.color = 'white';
+popup.style.zIndex = '1000';
+popup.style.overflow = 'auto';
+document.body.appendChild(popup);
+
+const popupContent = document.createElement('div');
+popupContent.style.position = 'relative';
+popupContent.style.margin = '50px auto';
+popupContent.style.padding = '20px';
+popupContent.style.background = '#ffffff';
+popupContent.style.color = '#333';
+popupContent.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+popupContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+popupContent.style.borderRadius = '10px';
+popupContent.style.width = '80%';
+popupContent.style.maxWidth = '800px';
+popup.appendChild(popupContent);
+
+// Adjusted styles to place the country name on the same line as the close button
+const popupHeader = document.createElement('div');
+popupHeader.style.display = 'flex';
+popupHeader.style.justifyContent = 'space-between';
+popupHeader.style.alignItems = 'center';
+
+const popupCountryName = document.createElement('h2');
+popupCountryName.id = 'popup-country-name';
+popupCountryName.innerText = 'Country Name';
+popupCountryName.style.margin = '0';
+popupCountryName.style.color = '#ffcc00'; // Olympic gold
+popupCountryName.style.fontWeight = 'bold';
+popupCountryName.style.fontSize = '1.5em';
+popupHeader.appendChild(popupCountryName);
+
+const closeButton = document.createElement('button');
+closeButton.id = 'close-popup';
+closeButton.innerText = 'Close';
+closeButton.style.background = '#ff0000'; // Olympic red
+closeButton.style.color = '#ffffff';
+closeButton.style.fontWeight = 'bold';
+closeButton.style.border = 'none';
+closeButton.style.padding = '5px 10px';
+closeButton.style.cursor = 'pointer';
+closeButton.style.borderRadius = '5px';
+popupHeader.appendChild(closeButton);
+
+popupContent.appendChild(popupHeader);
+
+const popupMedalCount = document.createElement('p');
+popupMedalCount.id = 'popup-medal-count';
+popupMedalCount.innerText = 'Medals: 0';
+popupMedalCount.style.color = '#333';
+popupMedalCount.style.fontSize = '1.2em';
+popupMedalCount.style.fontWeight = 'bold';
+popupContent.appendChild(popupMedalCount);
+
+// Adjust the layout of the popup-charts container to display charts side by side
+const popupCharts = document.createElement('div');
+popupCharts.id = 'popup-charts';
+popupCharts.style.display = 'flex'; // Use flexbox for layout
+popupCharts.style.justifyContent = 'space-between'; // Add spacing between charts
+popupCharts.style.alignItems = 'flex-start'; // Align charts at the top
+popupCharts.style.marginTop = '20px';
+popupCharts.style.color = '#666';
+popupContent.appendChild(popupCharts);
+
+// Create separate containers for the bar chart and pie chart
+const barChartContainer = document.createElement('div');
+barChartContainer.id = 'popup-bar-chart';
+barChartContainer.style.flex = '1'; // Allow the bar chart to take up equal space
+barChartContainer.style.marginRight = '10px'; // Add spacing between the charts
+popupCharts.appendChild(barChartContainer);
+
+const pieChartContainer = document.createElement('div');
+pieChartContainer.id = 'popup-pie-chart';
+pieChartContainer.style.flex = '1'; // Allow the pie chart to take up equal space
+pieChartContainer.style.marginLeft = '100px'; // Add spacing between the charts
+pieChartContainer.style.marginTop = '80px'; // Set a fixed width for the pie chart
+popupCharts.appendChild(pieChartContainer);
+
+const popupParticipantsCount = document.createElement('p');
+popupParticipantsCount.id = 'popup-participants-count';
+popupParticipantsCount.innerText = 'Evolution number of participants:';
+popupParticipantsCount.style.color = '#333';
+popupParticipantsCount.style.fontSize = '1.2em';
+popupParticipantsCount.style.fontWeight = 'bold';
+popupContent.appendChild(popupParticipantsCount);
+
+// Create a container for the line chart
+const lineChartContainer = document.createElement('div');
+lineChartContainer.id = 'popup-line-chart';
+lineChartContainer.style.flex = '1'; // Allow the line chart to span the full width
+lineChartContainer.style.marginTop = '20px';
+lineChartContainer.style.width = '100%';
+lineChartContainer.style.overflow = 'auto'; // Allow scrolling if content overflows
+popupContent.appendChild(lineChartContainer);
+
+const popupTopSportTitle = document.createElement('p');
+popupTopSportTitle.id = 'popup-top-sport-title';
+popupTopSportTitle.innerText = 'Top Sports Ranking:';
+popupTopSportTitle.style.color = '#333';
+popupTopSportTitle.style.fontSize = '1.2em';
+popupTopSportTitle.style.fontWeight = 'bold';
+popupContent.appendChild(popupTopSportTitle);
+
+// Create a container for the top sports ranking chart
+const topSportsContainer = document.createElement('div');
+topSportsContainer.id = 'popup-top-sports';
+topSportsContainer.style.marginTop = '20px';
+topSportsContainer.style.width = '100%';
+topSportsContainer.style.height = '300px'; // Set a fixed height for the top sports ranking chart
+topSportsContainer.style.overflow = 'auto'; // Allow scrolling if content overflows
+topSportsContainer.style.color = '#333';
+topSportsContainer.style.fontSize = '1.2em';
+popupContent.appendChild(topSportsContainer);
+
+// Listen for the custom event dispatched from script.js
+document.addEventListener("countrySelected", (event) => {
+    const { countryName } = event.detail;
+
+    document.getElementById('popup-country-name').textContent = "countryName";
+    document.getElementById('popup-medal-count').textContent = `Total Medals:`;
+    document.getElementById('popup-charts').innerHTML = '<i>Future D3.js charts will go here.</i>';
+
+    // Fetch and process data for the selected country
+    d3.csv("../data/athlete_events.csv").then((data) => {
+        // Filter data for the selected country
+        const countryData = data.filter(d => d.Team === countryName);
+
+        // Aggregate medal counts by year
+        const medalCounts = d3.rollups(
+            countryData,
+            v => v.length,
+            d => d.Year
+        ).map(([year, count]) => ({ year: +year, count }));
+
+        // Sort by year
+        medalCounts.sort((a, b) => a.year - b.year);
+
+        console.log(document.getElementById('popup-country-name')); // Check if the element exists
+        document.getElementById('popup-country-name').textContent = countryName;
+
+        // Update popup content
+        document.getElementById('popup-country-name').textContent = countryName;
+        document.getElementById('popup-medal-count').textContent = `Total Medals: ${countryData.length}`;
+
+        // Display the bar chart in a popup
+        createBarChart(medalCounts, "popup-container");
+
+        popup.style.display = 'block'; // Show the popup
+    });
+});
+
+// Add event listener to close the popup
+closeButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
