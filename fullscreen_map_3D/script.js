@@ -208,6 +208,89 @@ function createInteractiveLineChart(data, containerId) {
         .call(zoom);
 }
 
+function createTopSportsRanking(data, containerId) {
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const width = 400 - margin.left - margin.right;
+    const height = 300 - margin.top - margin.bottom;
+
+    // Clear any existing chart
+    d3.select(`#${containerId}`).selectAll('*').remove();
+
+    const svg = d3.select(`#${containerId}`)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Set up scales
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.sport))
+        .range([0, width])
+        .padding(0.4);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .nice()
+        .range([height, 0]);
+
+    // Add axes
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x));
+
+    svg.append('g')
+        .call(d3.axisLeft(y));
+
+    // Add bars
+    const bars = svg.selectAll('.bar')
+        .data(data)
+        .enter().append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => x(d.sport))
+        .attr('y', d => y(d.count))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - y(d.count))
+        .attr('fill', '#ffcc00') // Olympic yellow
+        .on('mouseover', function (event, d) {
+            const tooltip = d3.select('#tooltip');
+            tooltip.style('opacity', 1)
+                .html(`${d.sport}: ${d.count} medals`)
+                .style('left', `${event.pageX + 10}px`)
+                .style('top', `${event.pageY - 20}px`);
+        })
+        .on('mouseout', function () {
+            d3.select('#tooltip').style('opacity', 0);
+        });
+
+    // Add tooltip container
+    if (!d3.select('#tooltip').node()) {
+        d3.select('body').append('div')
+            .attr('id', 'tooltip')
+            .style('position', 'absolute')
+            .style('background', '#fff')
+            .style('border', '1px solid #ccc')
+            .style('padding', '5px')
+            .style('border-radius', '5px')
+            .style('pointer-events', 'none')
+            .style('opacity', 0);
+    }
+}
+
+// Add tooltip div to the body
+if (!document.getElementById('tooltip')) {
+    const tooltip = document.createElement('div');
+    tooltip.id = 'tooltip';
+    tooltip.style.position = 'absolute';
+    tooltip.style.background = '#333';
+    tooltip.style.color = '#fff';
+    tooltip.style.padding = '5px 10px';
+    tooltip.style.borderRadius = '5px';
+    tooltip.style.opacity = '0';
+    tooltip.style.pointerEvents = 'none';
+    document.body.appendChild(tooltip);
+}
+
 fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
     const colorScale = scaleSequentialSqrt(interpolateYlOrRd);
 
@@ -324,6 +407,7 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
         popupMedalCount.innerText = 'Medals: 0';
         popupMedalCount.style.color = '#333';
         popupMedalCount.style.fontSize = '1.2em';
+        popupMedalCount.style.fontWeight = 'bold';
         popupContent.appendChild(popupMedalCount);
 
         // Adjust the layout of the popup-charts container to display charts side by side
@@ -355,6 +439,7 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
         popupParticipantsCount.innerText = 'Evolution number of participants:';
         popupParticipantsCount.style.color = '#333';
         popupParticipantsCount.style.fontSize = '1.2em';
+        popupParticipantsCount.style.fontWeight = 'bold';
         popupContent.appendChild(popupParticipantsCount);
 
         // Create a container for the line chart
@@ -363,7 +448,27 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
         lineChartContainer.style.flex = '1'; // Allow the line chart to span the full width
         lineChartContainer.style.marginTop = '20px';
         lineChartContainer.style.width = '100%';
+        lineChartContainer.style.overflow = 'auto'; // Allow scrolling if content overflows
         popupContent.appendChild(lineChartContainer);
+
+        const popupTopSportTitle = document.createElement('p');
+        popupTopSportTitle.id = 'popup-top-sport-title';
+        popupTopSportTitle.innerText = 'Top Sports Ranking:';
+        popupTopSportTitle.style.color = '#333';
+        popupTopSportTitle.style.fontSize = '1.2em';
+        popupTopSportTitle.style.fontWeight = 'bold';
+        popupContent.appendChild(popupTopSportTitle);
+
+        // Create a container for the top sports ranking chart
+        const topSportsContainer = document.createElement('div');
+        topSportsContainer.id = 'popup-top-sports';
+        topSportsContainer.style.marginTop = '20px';
+        topSportsContainer.style.width = '100%';
+        topSportsContainer.style.height = '300px'; // Set a fixed height for the top sports ranking chart
+        topSportsContainer.style.overflow = 'auto'; // Allow scrolling if content overflows
+        topSportsContainer.style.color = '#333';
+        topSportsContainer.style.fontSize = '1.2em';
+        popupContent.appendChild(topSportsContainer);
 
         // Add click event to display country statistics in the popup
         world.onPolygonClick(clickedD => {
@@ -444,19 +549,6 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
                 
                 createPieChart(pieData, 'popup-pie-chart');
 
-                // Aggregate participant counts by year
-                const participantCounts = d3.rollups(
-                    countryData,
-                    v => new Set(v.map(d => d.ID)).size, // Count unique participants
-                    d => +d.Year
-                ).map(([year, count]) => ({ year, count }));
-
-                // Sort by year
-                participantCounts.sort((a, b) => a.year - b.year);
-
-                // Create the line chart
-                createLineChart(participantCounts, 'popup-line-chart');
-
                 // Filter data for the selected country
                 const allParticipants = csvData.filter(d => (d.Team === countryName || d.NOC === isoCode));
 
@@ -472,6 +564,20 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
 
                 // Create the line chart
                 createInteractiveLineChart(allParticipantCounts, 'popup-line-chart');
+
+                // Aggregate medal counts by sport
+                const sportCounts = d3.rollups(
+                    countryData,
+                    v => v.length,
+                    d => d.Sport
+                ).map(([sport, count]) => ({ sport, count }));
+
+                // Sort by medal count and take the top 3 sports
+                sportCounts.sort((a, b) => b.count - a.count);
+                const topSports = sportCounts.slice(0, 3);
+
+                // Create the top sports ranking chart
+                createTopSportsRanking(topSports, 'popup-top-sports');
 
                 popup.style.display = 'block';
             });
