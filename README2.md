@@ -33,6 +33,9 @@ The repository is organized as follows:
   * [D3.js](https://d3js.org/) for dynamic and interactive data visualizations
   * [Leaflet](https://leafletjs.com/) for interactive maps
   * [Leaflet.heat](https://github.com/Leaflet/Leaflet.heat) for heatmap layers
+  * [Globe.gl](https://globe.gl/) for 3D globe visualizations
+  * [Chart.js](https://www.chartjs.org/) for charting and data representation
+
 * **Data Processing**:
 
   * Python for data preprocessing (`process_olympic_data.py`)
