@@ -128,8 +128,8 @@ function createPieChart(data, containerId) {
     console.log('Data ready for pie chart:', data_ready); // Debugging log
 }
 
-// Function to create a line chart for the evolution of participants
-function createLineChart(data, containerId) {
+// Upgraded the line chart to include zooming functionality on the x-axis. Users can zoom in and out to see more details, and the chart updates correspondingly.
+function createInteractiveLineChart(data, containerId) {
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
     const width = 800 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
@@ -155,11 +155,11 @@ function createLineChart(data, containerId) {
         .range([height, 0]);
 
     // Add axes
-    svg.append('g')
+    const xAxis = svg.append('g')
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(x).tickFormat(d3.format('d')));
 
-    svg.append('g')
+    const yAxis = svg.append('g')
         .call(d3.axisLeft(y));
 
     // Add line
@@ -167,7 +167,7 @@ function createLineChart(data, containerId) {
         .x(d => x(d.year))
         .y(d => y(d.count));
 
-    svg.append('path')
+    const linePath = svg.append('path')
         .datum(data)
         .attr('fill', 'none')
         .attr('stroke', '#007BFF') // Olympic blue
@@ -175,7 +175,7 @@ function createLineChart(data, containerId) {
         .attr('d', line);
 
     // Add points
-    svg.selectAll('.dot')
+    const points = svg.selectAll('.dot')
         .data(data)
         .enter().append('circle')
         .attr('class', 'dot')
@@ -183,6 +183,29 @@ function createLineChart(data, containerId) {
         .attr('cy', d => y(d.count))
         .attr('r', 4)
         .attr('fill', '#007BFF');
+
+    // Add zoom functionality
+    const zoom = d3.zoom()
+        .scaleExtent([1, 10]) // Allow zooming in and out
+        .translateExtent([[0, 0], [width, height]]) // Limit panning
+        .on('zoom', (event) => {
+            const transform = event.transform;
+            const newX = transform.rescaleX(x);
+
+            // Update axes
+            xAxis.call(d3.axisBottom(newX).tickFormat(d3.format('d')));
+
+            // Update line and points
+            linePath.attr('d', line.x(d => newX(d.year)));
+            points.attr('cx', d => newX(d.year));
+        });
+
+    svg.append('rect')
+        .attr('width', width)
+        .attr('height', height)
+        .style('fill', 'none')
+        .style('pointer-events', 'all')
+        .call(zoom);
 }
 
 fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
@@ -448,7 +471,7 @@ fetch('../docs/olympic_data.json').then(res => res.json()).then(olympicData => {
                 allParticipantCounts.sort((a, b) => a.year - b.year);
 
                 // Create the line chart
-                createLineChart(allParticipantCounts, 'popup-line-chart');
+                createInteractiveLineChart(allParticipantCounts, 'popup-line-chart');
 
                 popup.style.display = 'block';
             });
