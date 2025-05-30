@@ -15,12 +15,18 @@ The repository is organized as follows:
 ├── assets/                 # Images and other assets
 ├── data/                   # Processed datasets
 ├── docs/                   # Documentation and reports
-│   ├── Milestone 1.pdf     # Milestone 1 report
-│   └── Milestone 2.pdf     # Milestone 2 report
+│   ├── olympic_data.json
+│   ├── style.css
+│   └── script.js
+├── Milestone 3/                   
+│   ├── Process book.pdf
+│   ├── video.mp4       
 ├── fullscreen_map/         # Fullscreen map visualization
 ├── fullscreen_map_3D/      # 3D map visualization
 ├── index.html              # Entry point of the website
 ├── leaflet-heat.js         # Leaflet heatmap plugin
+├── Milestone 1.pdf
+├── Milestone 2.pdf
 ├── process_olympic_data.py # Data preprocessing script
 └── README.md               # Project documentation
 ```
