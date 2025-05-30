@@ -19,6 +19,8 @@
 
 ## Milestone 3 (30th May, 5pm)
 
+[README](https://github.com/com-480-data-visualization/DaViz/blob/master/README2.md)
+
 **80% of the final grade**
 
 
