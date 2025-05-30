@@ -426,3 +426,32 @@ document.addEventListener("DOMContentLoaded", () => {
         toggle3DView();
     });
 });
+
+// Save scroll position before leaving main page
+window.addEventListener('beforeunload', () => {
+    localStorage.setItem('mainScrollPosition', window.scrollY);
+});
+
+// Restore scroll position when returning
+window.addEventListener('load', () => {
+    // Check URL parameter first
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("URL Parameters:", urlParams.toString());
+    const urlScrollPos = urlParams.get('scroll');
+    
+    if (urlScrollPos) {
+        setTimeout(() => {
+            window.scrollTo(0, parseInt(urlScrollPos, 10));
+            // Clean URL without reloading
+            history.replaceState(null, '', window.location.pathname);
+        }, 50);
+    }
+
+    const savedPosition = localStorage.getItem('mainScrollPosition');
+    if (savedPosition) {
+        setTimeout(() => {
+            window.scrollTo(0, parseInt(savedPosition, 10));
+            localStorage.removeItem('mainScrollPosition'); // Clean up
+        }, 50);
+    }
+});
